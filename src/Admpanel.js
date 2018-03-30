@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
-export default class Admpanel extends Component {
+class Admpanel extends Component {
   render() {
     return <div />;
   }
 }
+
+export default Admpanel;

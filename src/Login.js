@@ -13,7 +13,7 @@ const INIT_PANEL = 0;
 const STD_PANEL = 1;
 const ADM_PANEL = 2;
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.getUsr = this.getUsr.bind(this);
@@ -59,13 +59,13 @@ export default class Login extends Component {
     }
   }
 
-  handleReg() {}
+  handleReg() { }
 
   checkInput() {
     for (let i = 0; i < usr_db.length; i++) {
-      if (usr_db[i] == this.state.usr) {
-        if (psd_db[i] == this.state.psd) {
-          if (this.state.usr == "Admin") {
+      if (usr_db[i] === this.state.usr) {
+        if (psd_db[i] === this.state.psd) {
+          if (this.state.usr === "Admin") {
             return ADMIN_USR;
           }
           return STUDENT_USR;
@@ -79,12 +79,18 @@ export default class Login extends Component {
   render() {
     switch (this.state.jmp) {
       case STD_PANEL:
-        return <Redirect push to />;
+        {
+          return <Redirect to={{
+            pathname: '/Stdpanel'
+          }} />;
+          // return <Redirect push to="" />
+        }
       case ADM_PANEL:
         break;
       default:
         break;
     }
+
     return (
       <div className="Login">
         <header className="Login-Header">
@@ -116,3 +122,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default Login;
