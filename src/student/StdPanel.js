@@ -9,9 +9,12 @@ import SearchPanel from "./SearchPanel";
 const INIT_PANEL = 0;
 const EDIT_PANEL = 1;
 const TEST_PANEL = 2;
-// const SRCH_PANEL = 3;
 
 function matchProblem(search_word, problem) {
+    console.log(problem.Name);
+    console.log(problem.problemID);
+    console.log(problem.subject);
+    console.log(problem.redoNumber);
     if ((problem.Name === search_word)
         || (problem.problemID === search_word)
         || (problem.subject === search_word)
@@ -27,6 +30,7 @@ class StdPanel extends React.Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.getInitPanel = this.getInitPanel.bind(this);
+        this.getSearchTable = this.getSearchTable.bind(this);
         this.state = {
             usr: this.props.usr,
             psd: this.props.psd,
@@ -53,6 +57,9 @@ class StdPanel extends React.Component {
     }
 
     handleSearch() {
+        console.log("SB");
+        console.log(this.state.search_word);
+        console.log(this.state.problems.length);
         let temp = Array();
         for (let i = 0; i < this.state.problems.length; i++) {
             if (matchProblem(this.state.search_word, this.state.problems[i]))
@@ -64,14 +71,41 @@ class StdPanel extends React.Component {
         });
     }
 
+    getSearchTable() {
+        if (this.state.toggle_search) {
+            console.log(this.state.show_problems.length);
+            return (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Latest Edit Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>{
+                        this.state.show_problems.map((row, rowid) =>
+                            <tr key={rowid}>
+                                <td>{row.problemID}</td>
+                                <td>{row.Name}</td>
+                                <td>{row.subject}</td>
+                                <td>{row.latestEditDate}</td>
+                            </tr>, this)
+                    }</tbody>
+                </table>
+            );
+        }
+        else
+            return <div />;
+    }
+
     render() {
         switch (this.state.show_panel) {
             case EDIT_PANEL:
                 return <EditPanel />;
             case TEST_PANEL:
                 return <TestPanel />;
-            // case SRCH_PANEL:
-            //     return <SearchPanel />;
             default:
                 return this.getInitPanel();
         }
@@ -104,6 +138,7 @@ class StdPanel extends React.Component {
                 <Button className="search-button" onClick={this.handleSearch} >
                     Search
                 </Button>
+                {this.getSearchTable()}
             </div>
         );
     }

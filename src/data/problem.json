@@ -1,7 +1,7 @@
 [
   {
     "problemID": "001",
-    "userID": 123,
+    "userName": "bob",
     "Name": "Segmentation Fault",
     "Description": "None",
     "Reason": "I am an SB.",
@@ -13,7 +13,7 @@
   },
   {
     "problemID": "002",
-    "userID": 123,
+    "userName": "bob",
     "Name": "Runtime Error",
     "Description": "None",
     "Reason": "Compiler is an SB.",
@@ -25,7 +25,7 @@
   },
   {
     "problemID": "003",
-    "userID": 123,
+    "userName": "bob",
     "Name": "Bomb",
     "Description": "Silly",
     "Reason": "I am an SB.",
@@ -37,7 +37,7 @@
   },
   {
     "problemID": "004",
-    "userID": 123,
+    "userName": "bob",
     "Name": "Segmental Fault",
     "Description": "None",
     "Reason": "I am an SB.",
@@ -49,7 +49,7 @@
   },
   {
     "problemID": "005",
-    "userID": 123,
+    "userName": "bob",
     "Name": "Unkown Fault",
     "Description": "Oh my god",
     "Reason": "The world is wrong!!!!!!!!",

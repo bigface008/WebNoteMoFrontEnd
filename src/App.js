@@ -19,10 +19,10 @@ const REG_PANEL = 3;
 let usr_db = require("./data/user.json");
 let pro_db = require('./data/problem.json');
 
-function findUserProblems(id, datas) {
+function findUserProblems(name, datas) {
   let result = Array();
   for (let i = 0; i < datas.length; i++) {
-    if (datas[i].userID === id || datas[i].userName === "admin")
+    if (datas[i].userName === name || datas[i].userName === "admin")
       result.push(datas[i]);
   }
   return result;
@@ -87,7 +87,7 @@ class App extends Component {
 
   getRegInfo(info_list) {
     let temp_id = generateID(info_list.name);
-    let temp_pro = findUserProblems(temp_id, pro_db);
+    let temp_pro = findUserProblems(info_list.name, pro_db);
 
     // Write database
 
@@ -111,7 +111,10 @@ class App extends Component {
             return ADMIN_USR;
           }
 
-          let problems = findUserProblems(this.state.id, pro_db);
+          let problems = findUserProblems(this.state.usr, pro_db);
+          console.log(this.state.usr);
+          console.log("problen db number", pro_db.length);
+          console.log("problems number", problems.length);
           this.setState({ problem: problems });
           return STUDENT_USR;
         }
