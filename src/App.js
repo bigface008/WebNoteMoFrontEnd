@@ -32,7 +32,7 @@ function generateID(usr) {
   return 0;
 }
 
-class Login extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.getUsr = this.getUsr.bind(this);
@@ -172,4 +172,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default App;
