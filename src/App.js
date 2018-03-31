@@ -130,7 +130,7 @@ class Login extends Component {
         return <Admpanel />;
       case REG_PANEL:
         return <Regpanel
-          nameSet={this.state.usr_db}
+          nameSet={usr_db}
           callbackParent={this.getRegInfo} />;
       default:
         return this.getLoginPanel();

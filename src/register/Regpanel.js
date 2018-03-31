@@ -1,17 +1,5 @@
 import React, { Component } from "react";
 
-function checkPassword(psd) {
-  return true;
-}
-
-function checkEmail(mail) {
-  return true;
-}
-
-function checkPhone(phone) {
-  return true;
-}
-
 class Regpanel extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +8,10 @@ class Regpanel extends Component {
     this.getMail = this.getMail.bind(this);
     this.getPhone = this.getPhone.bind(this);
     this.submitInfo = this.submitInfo.bind(this);
-    this.checkInfo = this.checkInfo.bind(this);
+    this.checkName = this.checkName.bind(this);
+    this.checkPassword = this.checkPassword.bind(this);
+    this.checkEmail = this.checkEmail.bind(this);
+    this.checkPhone = this.checkPhone.bind(this);
     this.state = {
       name: "",
       password: "",
@@ -50,22 +41,66 @@ class Regpanel extends Component {
     this.setState({ phone: val });
   }
 
-  checkInfo() {
-    // This check maybe too late, since you have to rewrite the whole form if...
-    for (let i = 0; i < this.state.name_set.length; i++) {
-      if (this.state.name_set[i] === this.state.name) {
-        if (checkPassword(this.state.password) &&
-          checkEmail(this.state.mail) &&
-          checkPhone(this.state.phone))
-          return true;
-      }
+  checkPassword() {
+    let psd = this.state.password;
+    let temp0 = 0;
+    let temp1 = 0;
+    for (let i = 0; i < psd.length; i++) {
+      let tmp = psd[i];
+      if (!isNaN(tmp))
+        temp0++;
+      else if ((tmp >= 'a' && tmp <= 'z') || (tmp >= 'A' && tmp <= 'Z'))
+        temp1++;
+      else
+        return false;
+    }
+    return temp0 > 0 && temp1 > 0;
+  }
+
+  checkEmail() {
+    let mail = this.state.mail;
+    if (mail[0] === "@" || mail[mail.length - 1] === "@")
+      return false;
+    for (let i = 0; i < mail.length; i++) {
+      if (mail[i] === "@")
+        return true;
     }
     return false;
   }
 
+  checkPhone() {
+    let phone = this.state.phone;
+    if (phone.length === 11 && !isNaN(phone))
+      return true;
+    else
+      return false;
+  }
+
+  checkName() {
+    // This check maybe too late, since you have to rewrite the whole form if...
+    for (let i = 0; i < this.state.name_set.length; i++) {
+      if (this.state.name_set[i] === this.state.name) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   submitInfo() {
-    if (!this.checkInfo()) {
+    if (!this.checkName()) {
       alert("This name is already used.");
+      return;
+    }
+    else if (!this.checkPassword()) {
+      alert("The password must contain numbers and characters.");
+      return;
+    }
+    else if (!this.checkEmail()) {
+      alert("The email address is wrong.");
+      return;
+    }
+    else if (!this.checkPhone()) {
+      alert("The phone number is wrong.");
       return;
     }
 
