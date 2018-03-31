@@ -8,7 +8,7 @@ class Stdpanel extends Component {
             usr: this.props.usr,
             psd: this.props.psd,
             id: this.props.id,
-            problemSet: this.props.problems
+            problems: this.props.problems
         };
     }
 
@@ -21,7 +21,7 @@ class Stdpanel extends Component {
                 <p className="Usr-info">
                     Student {this.state.usr} {this.state.psd} {this.state.id}
                 </p>
-                <ProblemList base={this.state.problemSet} />
+                <ProblemList base={this.state.problems} />
             </div>
         );
     }

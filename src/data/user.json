@@ -3,12 +3,16 @@
     "userID": 123,
     "userName": "bob",
     "userPassword": "note",
-    "userType": "normal"
+    "userType": "normal",
+    "userEmail": "bigface00@sjtu.edu.cn",
+    "userPhone": "18069189552"
   },
   {
     "userID": 234,
     "userName": "admin",
     "userPassword": "123",
-    "userType": "admin"
+    "userType": "admin",
+    "userEmail": "bigface00@sjtu.edu.cn",
+    "userPhone": "18069189552"
   }
 ]

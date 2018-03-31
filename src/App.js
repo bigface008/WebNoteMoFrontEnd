@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Stdpanel from "./student/Stdpanel";
 import Admpanel from "./admin/Admpanel";
+import Regpanel from "./register/Regpanel.js";
 
 const STUDENT_USR = 0;
 const ADMIN_USR = 1;
@@ -11,17 +12,22 @@ const WRONG_PASSWORD = 3;
 const INIT_PANEL = 0;
 const STD_PANEL = 1;
 const ADM_PANEL = 2;
+const REG_PANEL = 3;
 
 let usr_db = require("./data/user.json");
 let pro_db = require('./data/problem.json');
 
 function findUserProblems(id, datas) {
-  let result = new Array();
+  let result = Array();
   for (let i = 0; i < datas.length; i++) {
     if (datas[i].userID === id)
       result.push(datas[i]);
   }
   return result;
+}
+
+function generateID(usr) {
+  return 0;
 }
 
 class Login extends Component {
@@ -56,8 +62,8 @@ class Login extends Component {
     let val = this.checkInput();
     switch (val) {
       case STUDENT_USR: // Show Student Panel.
-          this.setState({ show_panel: STD_PANEL });
-          break;
+        this.setState({ show_panel: STD_PANEL });
+        break;
       case ADMIN_USR: // Show Admin Panel.
         this.setState({ show_panel: ADM_PANEL });
         break;
@@ -72,7 +78,25 @@ class Login extends Component {
     }
   }
 
-  handleReg() { }
+  handleReg() {
+    this.setState({ show_panel: REG_PANEL });
+  }
+
+  getRegInfo(info_list) {
+    console.log("SB");
+    let temp_id = generateID(info_list.name);
+    let temp_pro = findUserProblems(temp_id, pro_db);
+
+    // Write database
+
+    this.setState({
+      usr: info_list.name,
+      psd: info_list.password,
+      id: temp_id,
+      problem: temp_pro,
+      show_panel: STD_PANEL
+    });
+  }
 
   checkInput() {
     for (let i = 0; i < usr_db.length; i++) {
@@ -104,6 +128,8 @@ class Login extends Component {
           problems={this.state.problem} />;
       case ADM_PANEL:
         return <Admpanel />;
+      case REG_PANEL:
+        return <Regpanel callbackParent={this.getRegInfo} />;
       default:
         return this.getLoginPanel();
     }

@@ -5,7 +5,7 @@ class ProblemList extends Component {
     super(props);
     this.renderToolbar = this.renderToolbar.bind(this);
     this.state = {
-      problemSet: this.props.base
+      problem: this.props.base,
     }
   }
 
@@ -16,17 +16,6 @@ class ProblemList extends Component {
       </div>
     );
   }
-
-  renderToolbar() {
-    return (
-      <div className="toolbar">
-        {/* <button onClick={this._toggleSearch}>Search</button>
-        <a onClick={this._download.bind(this, 'json')} href="data.json">
-          Export JSON
-        </a>
-        <a onClick={this._download.bind(this, 'csv')} href="data.csv"> Export CSV</a> */}
-      </div>);
-  };
 }
 
 export default ProblemList;
