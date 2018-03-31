@@ -9,22 +9,39 @@ import SearchPanel from "./SearchPanel";
 const INIT_PANEL = 0;
 const EDIT_PANEL = 1;
 const TEST_PANEL = 2;
-const SRCH_PANEL = 3;
+// const SRCH_PANEL = 3;
+
+function matchProblem(search_word, problem) {
+    if ((problem.Name === search_word)
+        || (problem.problemID === search_word)
+        || (problem.subject === search_word)
+        || (problem.redoNumber === search_word))
+        return true;
+}
 
 class StdPanel extends React.Component {
     constructor(props) {
         super(props);
-        this.getInitPanel = this.getInitPanel.bind(this);
+        this.getSearchWord = this.getSearchWord.bind(this);
         this.handleTest = this.handleTest.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.getInitPanel = this.getInitPanel.bind(this);
         this.state = {
             usr: this.props.usr,
             psd: this.props.psd,
             id: this.props.id,
             problems: this.props.problems,
-            show_panel: INIT_PANEL
+            show_problems: null,
+            show_panel: INIT_PANEL,
+            search_word: "",
+            toggle_search: false
         };
+    }
+
+    getSearchWord(e) {
+        let val = e.target.value;
+        this.setState({ search_word: val });
     }
 
     handleTest() {
@@ -36,7 +53,15 @@ class StdPanel extends React.Component {
     }
 
     handleSearch() {
-        this.setState({ show_panel: SRCH_PANEL });
+        let temp = Array();
+        for (let i = 0; i < this.state.problems.length; i++) {
+            if (matchProblem(this.state.search_word, this.state.problems[i]))
+                temp.push(this.state.problems[i]);
+        }
+        this.setState({
+            show_problems: temp,
+            toggle_search: true
+        });
     }
 
     render() {
@@ -45,8 +70,8 @@ class StdPanel extends React.Component {
                 return <EditPanel />;
             case TEST_PANEL:
                 return <TestPanel />;
-            case SRCH_PANEL:
-                return <SearchPanel />;
+            // case SRCH_PANEL:
+            //     return <SearchPanel />;
             default:
                 return this.getInitPanel();
         }
@@ -57,11 +82,18 @@ class StdPanel extends React.Component {
         return (
             <div className="Std-panel">
                 <header className="Std-header">
-                    <h1 className="Std-title">Student</h1>
+                    <h1 className="Std-title">Web Note</h1>
                 </header>
                 <p className="Usr-info">
-                    Student {this.state.usr}
+                    Hello, {this.state.usr}!
                 </p>
+                <form action="">
+                    <input
+                        type="text"
+                        value={this.state.search_word}
+                        onChange={this.getSearchWord}
+                    />
+                </form>
                 <ProblemList base={this.state.problems} />
                 <Button className="test-button" onClick={this.handleTest} >
                     Test
