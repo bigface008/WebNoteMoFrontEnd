@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import "./App.css";
+import { Button } from 'antd';
 import Stdpanel from "./student/Stdpanel";
 import Admpanel from "./admin/Admpanel";
 import Regpanel from "./register/Regpanel.js";
+// import "antd/dist/antd.css";
+import "./App.css";
 
 const STUDENT_USR = 0;
 const ADMIN_USR = 1;
@@ -159,12 +161,12 @@ class Login extends Component {
             onChange={this.getPsd}
           />
         </form>
-        <button className="log-button" onClick={this.handleLog}>
+        <Button className="log-button" onClick={this.handleLog}>
           Login
-        </button>
-        <button className="reg-button" onClick={this.handleReg}>
+        </Button>
+        <Button className="reg-button" onClick={this.handleReg}>
           Register
-        </button>
+        </Button>
       </div>
     );
   }
