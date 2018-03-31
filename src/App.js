@@ -39,6 +39,7 @@ class Login extends Component {
     this.handleReg = this.handleReg.bind(this);
     this.checkInput = this.checkInput.bind(this);
     this.getLoginPanel = this.getLoginPanel.bind(this);
+    this.getRegInfo = this.getRegInfo.bind(this);
     this.state = {
       usr: "",
       psd: "",
@@ -83,7 +84,6 @@ class Login extends Component {
   }
 
   getRegInfo(info_list) {
-    console.log("SB");
     let temp_id = generateID(info_list.name);
     let temp_pro = findUserProblems(temp_id, pro_db);
 
@@ -129,7 +129,9 @@ class Login extends Component {
       case ADM_PANEL:
         return <Admpanel />;
       case REG_PANEL:
-        return <Regpanel callbackParent={this.getRegInfo} />;
+        return <Regpanel
+          nameSet={this.state.usr_db}
+          callbackParent={this.getRegInfo} />;
       default:
         return this.getLoginPanel();
     }

@@ -1,5 +1,17 @@
 import React, { Component } from "react";
 
+function checkPassword(psd) {
+  return true;
+}
+
+function checkEmail(mail) {
+  return true;
+}
+
+function checkPhone(phone) {
+  return true;
+}
+
 class Regpanel extends Component {
   constructor(props) {
     super(props);
@@ -8,11 +20,13 @@ class Regpanel extends Component {
     this.getMail = this.getMail.bind(this);
     this.getPhone = this.getPhone.bind(this);
     this.submitInfo = this.submitInfo.bind(this);
+    this.checkInfo = this.checkInfo.bind(this);
     this.state = {
       name: "",
       password: "",
       mail: "",
-      phone: ""
+      phone: "",
+      name_set: this.props.nameSet
     };
   }
 
@@ -36,7 +50,25 @@ class Regpanel extends Component {
     this.setState({ phone: val });
   }
 
+  checkInfo() {
+    // This check maybe too late, since you have to rewrite the whole form if...
+    for (let i = 0; i < this.state.name_set.length; i++) {
+      if (this.state.name_set[i] === this.state.name) {
+        if (checkPassword(this.state.password) &&
+          checkEmail(this.state.mail) &&
+          checkPhone(this.state.phone))
+          return true;
+      }
+    }
+    return false;
+  }
+
   submitInfo() {
+    if (!this.checkInfo()) {
+      alert("This name is already used.");
+      return;
+    }
+
     let temp = Object();
     temp.name = this.state.name;
     temp.password = this.state.password;
