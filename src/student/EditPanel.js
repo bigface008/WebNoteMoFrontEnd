@@ -1,6 +1,6 @@
 import React from "react";
 
-class SearchPanel extends React.Component {
+class EditPanel extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -8,10 +8,10 @@ class SearchPanel extends React.Component {
   render() {
     return (
       <div>
-        Search Panel
+        Edit Panel
       </div>
     );
   }
 }
 
-export default SearchPanel;
+export default EditPanel;

@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 
-class AdmPanel extends Component {
+class AdmPanel extends React.Component {
   render() {
     return <div />;
   }
