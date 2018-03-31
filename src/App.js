@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Button } from 'antd';
-import Stdpanel from "./student/Stdpanel";
-import Admpanel from "./admin/Admpanel";
-import Regpanel from "./register/Regpanel.js";
+import StdPanel from "./student/StdPanel";
+import AdmPanel from "./admin/AdmPanel";
+import RegPanel from "./register/RegPanel.js";
 // import "antd/dist/antd.css";
 import "./App.css";
 
@@ -22,7 +22,7 @@ let pro_db = require('./data/problem.json');
 function findUserProblems(id, datas) {
   let result = Array();
   for (let i = 0; i < datas.length; i++) {
-    if (datas[i].userID === id)
+    if (datas[i].userID === id || datas[i].userName === "admin")
       result.push(datas[i]);
   }
   return result;
@@ -123,15 +123,15 @@ class App extends Component {
   render() {
     switch (this.state.show_panel) {
       case STD_PANEL:
-        return <Stdpanel
+        return <StdPanel
           usr={this.state.usr}
           psd={this.state.psd}
           id={this.state.id}
           problems={this.state.problem} />;
       case ADM_PANEL:
-        return <Admpanel />;
+        return <AdmPanel />;
       case REG_PANEL:
-        return <Regpanel
+        return <RegPanel
           nameSet={usr_db}
           callbackParent={this.getRegInfo} />;
       default:

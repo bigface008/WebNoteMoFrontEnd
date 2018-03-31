@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 
-class ProblemList extends Component {
+class ProblemList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,6 +11,7 @@ class ProblemList extends Component {
   render() {
     return (
       <div className="Problem-list" >
+        problem list
       </div>
     );
   }

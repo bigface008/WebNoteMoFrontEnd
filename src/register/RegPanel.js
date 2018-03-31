@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class Regpanel extends Component {
+class RegPanel extends Component {
   constructor(props) {
     super(props);
     this.getName = this.getName.bind(this);
@@ -153,4 +153,4 @@ class Regpanel extends Component {
   }
 }
 
-export default Regpanel;
+export default RegPanel;
