@@ -4,19 +4,20 @@ class Stdpanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            usr: "",
+            usr: this.props.usr,
         };
     }
 
     render() {
         return (
-            <div className="Std-pane/*  */l" >
+            <div className="Std-panel" >
                 <header className="Std-header" >
                     <h1 className="Std-title">Student</h1>
                 </header>
-                <p className="Problem-info" >
-                    Student Panel {this.state.usr}
+                <p className="Usr-info" >
+                    Student {this.state.usr}
                 </p>
+                
             </div>
         );
     }
