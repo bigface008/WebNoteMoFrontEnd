@@ -81,12 +81,16 @@ class Login extends Component {
       case STD_PANEL:
         {
           return <Redirect to={{
-            pathname: '/Stdpanel'
+            pathname: '/student',
+            state: { usr: this.state.usr }
           }} />;
-          // return <Redirect push to="" />
         }
       case ADM_PANEL:
-        break;
+        {
+          return <Redirect to={{
+            pathname: '/admin'
+          }} />;
+        }
       default:
         break;
     }
