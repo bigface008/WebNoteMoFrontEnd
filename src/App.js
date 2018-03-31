@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import "./App.css";
-import Stdpanel from "./Student/Stdpanel";
-import Admpanel from "./Admin/Admpanel";
-
-const usr_db = ["bob", "admin"];
-const psd_db = ["note", "123"];
+import Stdpanel from "./student/Stdpanel";
+import Admpanel from "./admin/Admpanel";
 
 const STUDENT_USR = 0;
 const ADMIN_USR = 1;
@@ -16,6 +12,18 @@ const INIT_PANEL = 0;
 const STD_PANEL = 1;
 const ADM_PANEL = 2;
 
+let usr_db = require("./data/user.json");
+let pro_db = require('./data/problem.json');
+
+function findUserProblems(id, datas) {
+  let result = new Array();
+  for (let i = 0; i < datas.length; i++) {
+    if (datas[i].userID === id)
+      result.push(datas[i]);
+  }
+  return result;
+}
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -24,9 +32,12 @@ class Login extends Component {
     this.handleLog = this.handleLog.bind(this);
     this.handleReg = this.handleReg.bind(this);
     this.checkInput = this.checkInput.bind(this);
+    this.getLoginPanel = this.getLoginPanel.bind(this);
     this.state = {
       usr: "",
       psd: "",
+      id: "",
+      problem: null,
       show_panel: INIT_PANEL
     };
   }
@@ -45,8 +56,8 @@ class Login extends Component {
     let val = this.checkInput();
     switch (val) {
       case STUDENT_USR: // Show Student Panel.
-        this.setState({ show_panel: STD_PANEL });
-        break;
+          this.setState({ show_panel: STD_PANEL });
+          break;
       case ADMIN_USR: // Show Admin Panel.
         this.setState({ show_panel: ADM_PANEL });
         break;
@@ -65,39 +76,37 @@ class Login extends Component {
 
   checkInput() {
     for (let i = 0; i < usr_db.length; i++) {
-      if (usr_db[i] === this.state.usr) {
-        if (psd_db[i] === this.state.psd) {
-          if (this.state.usr === "Admin") {
+      let temp = usr_db[i];
+      if (temp.userName === this.state.usr)
+        if (temp.userPassword === this.state.psd) {
+          this.setState({ id: temp.userID });
+
+          if (temp.userType === "admin") {
             return ADMIN_USR;
           }
+
+          let problems = findUserProblems(this.state.id, pro_db);
+          this.setState({ problem: problems });
           return STUDENT_USR;
         }
-        return WRONG_PASSWORD;
-      }
+      return WRONG_PASSWORD;
     }
     return WRONG_USERNAME;
   }
 
   render() {
-    let panel;
     switch (this.state.show_panel) {
       case STD_PANEL:
-        {
-          panel = <Stdpanel usr={this.state.usr}/>;
-          break;
-        }
+        return <Stdpanel
+          usr={this.state.usr}
+          psd={this.state.psd}
+          id={this.state.id}
+          problems={this.state.problem} />;
       case ADM_PANEL:
-        {
-          panel = <Admpanel />;
-          break;
-        }
+        return <Admpanel />;
       default:
-        {
-          panel = this.getLoginPanel();
-        }
-        break;
+        return this.getLoginPanel();
     }
-    return (panel);
   }
 
   getLoginPanel() {

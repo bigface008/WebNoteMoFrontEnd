@@ -1,0 +1,62 @@
+[
+  {
+    "problemID": "001",
+    "userID": 123,
+    "Name": "Segmentation Fault",
+    "Description": "None",
+    "Reason": "I am an SB.",
+    "subject": "ICS",
+    "semester": "2.1",
+    "addDate": "2018.01.01",
+    "latestEditDate": "2018.01.01",
+    "redoNumber": 1
+  },
+  {
+    "problemID": "002",
+    "userID": 123,
+    "Name": "Runtime Error",
+    "Description": "None",
+    "Reason": "Compiler is an SB.",
+    "subject": "Web",
+    "semester": "2.3",
+    "addDate": "2017.01.01",
+    "latestEditDate": "2018.01.01",
+    "redoNumber": 3
+  },
+  {
+    "problemID": "003",
+    "userID": 123,
+    "Name": "Bomb",
+    "Description": "Silly",
+    "Reason": "I am an SB.",
+    "subject": "ICS",
+    "semester": "2.2",
+    "addDate": "2018.03.01",
+    "latestEditDate": "2018.01.01",
+    "redoNumber": 1
+  },
+  {
+    "problemID": "004",
+    "userID": 123,
+    "Name": "Segmental Fault",
+    "Description": "None",
+    "Reason": "I am an SB.",
+    "subject": "ICS",
+    "semester": "2.1",
+    "addDate": "2018.01.01",
+    "latestEditDate": "2018.01.01",
+    "redoNumber": 1
+  },
+  {
+    "problemID": "005",
+    "userID": 123,
+    "Name": "Unkown Fault",
+    "Description": "Oh my god",
+    "Reason": "The world is wrong!!!!!!!!",
+    "subject": "ICS",
+    "semester": "1.1",
+    "addDate": "2018.10.01",
+    "latestEditDate": "2018.12.01",
+    "redoNumber": 1
+  }
+]
