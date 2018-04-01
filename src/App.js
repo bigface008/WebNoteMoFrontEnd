@@ -83,7 +83,8 @@ class App extends Component {
     }
   }
 
-  handleReg() {
+  handleReg(e) {
+    e.preventDefault();
     this.setState({ show_panel: REG_PANEL });
   }
 

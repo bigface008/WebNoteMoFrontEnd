@@ -1,4 +1,33 @@
 import React, { Component } from "react";
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import "../style/register.css";
+
+const FormItem = Form.Item;
+const Option = Select.Option;
+const AutoCompleteOption = AutoComplete.Option;
+const residences = [{
+  value: 'zhejiang',
+  label: 'Zhejiang',
+  children: [{
+    value: 'hangzhou',
+    label: 'Hangzhou',
+    children: [{
+      value: 'xihu',
+      label: 'West Lake',
+    }],
+  }],
+}, {
+  value: 'jiangsu',
+  label: 'Jiangsu',
+  children: [{
+    value: 'nanjing',
+    label: 'Nanjing',
+    children: [{
+      value: 'zhonghuamen',
+      label: 'Zhong Hua Men',
+    }],
+  }],
+}];
 
 class RegPanel extends Component {
   constructor(props) {
@@ -113,42 +142,115 @@ class RegPanel extends Component {
   }
 
   render() {
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 16,
+          offset: 8,
+        },
+      },
+    };
+
     return (
-      <div className="Reg-panel">
-        <header className="Reg-header">
-          <h1 className="Reg-title">Registeration</h1>
-        </header>
-        <form action="">
-          <input
-            type="text"
-            placeholder="Name"
-            value={this.state.name}
-            onChange={this.getName}
-          />
-          <br />
-          <input
-            type="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.getPassword}
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Email"
-            value={this.state.mail}
-            onChange={this.getMail}
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Phone Number"
-            value={this.state.phone}
-            onChange={this.getPhone}
-          />
-        </form>
-        <button className="submit-reg-button" onClick={this.submitInfo}>Submit</button>
-      </div>
+      <Form onSubmit={this.handleSubmit} className="Reg-form">
+        <FormItem
+          {...formItemLayout}
+          label="E-mail"
+        >
+          <Input />
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Password"
+        >
+          <Input type="password" />
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Confirm Password"
+        >
+          <Input type="password" onBlur={this.handleConfirmBlur} />
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label={(
+            <span>
+              Nickname&nbsp;
+              <Tooltip title="What do you want others to call you?">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          )}
+        >
+          <Input />
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Phone Number"
+        >
+          <Input
+            addonBefore={
+              <Select style={{ width: 70 }}>
+                <Option value="86">+86</Option>
+                <Option value="87">+87</Option>
+              </Select>
+            }
+            style={{ width: '100%' }} />
+        </FormItem>
+        <FormItem {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">Register</Button>
+        </FormItem>
+      </Form>
+      // <div className="Reg-panel">
+      //   <header className="Reg-header">
+      //     <h1 className="Reg-title">Registeration</h1>
+      //   </header>
+      //   <form action="">
+      //     <input
+      //       type="text"
+      //       placeholder="Name"
+      //       value={this.state.name}
+      //       onChange={this.getName}
+      //     />
+      //     <br />
+      //     <input
+      //       type="password"
+      //       placeholder="Password"
+      //       value={this.state.password}
+      //       onChange={this.getPassword}
+      //     />
+      //     <br />
+      //     <input
+      //       type="text"
+      //       placeholder="Email"
+      //       value={this.state.mail}
+      //       onChange={this.getMail}
+      //     />
+      //     <br />
+      //     <input
+      //       type="text"
+      //       placeholder="Phone Number"
+      //       value={this.state.phone}
+      //       onChange={this.getPhone}
+      //     />
+      //   </form>
+      //   <button className="submit-reg-button" onClick={this.submitInfo}>Submit</button>
+      // </div>
     );
   }
 }
