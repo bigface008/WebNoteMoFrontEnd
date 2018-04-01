@@ -34,6 +34,7 @@ class RegPanel extends Component {
     super(props);
     this.getName = this.getName.bind(this);
     this.getPassword = this.getPassword.bind(this);
+    this.getPasswordConfirm = this.getPasswordConfirm.bind(this);
     this.getMail = this.getMail.bind(this);
     this.getPhone = this.getPhone.bind(this);
     this.submitInfo = this.submitInfo.bind(this);
@@ -44,6 +45,7 @@ class RegPanel extends Component {
     this.state = {
       name: "",
       password: "",
+      password_confirm: "",
       mail: "",
       phone: "",
       name_set: this.props.nameSet
@@ -58,6 +60,11 @@ class RegPanel extends Component {
   getPassword(e) {
     let val = e.target.value;
     this.setState({ password: val });
+  }
+
+  getPasswordConfirm(e) {
+    let val = e.target.value;
+    this.setState({ password_confirm: val });
   }
 
   getMail(e) {
@@ -108,7 +115,8 @@ class RegPanel extends Component {
   checkName() {
     // This check maybe too late, since you have to rewrite the whole form if...
     for (let i = 0; i < this.state.name_set.length; i++) {
-      if (this.state.name_set[i] === this.state.name) {
+      console.log(this.state.name_set[i]);
+      if (this.state.name_set[i].userName === this.state.name) {
         return false;
       }
     }
@@ -167,90 +175,73 @@ class RegPanel extends Component {
     };
 
     return (
-      <Form onSubmit={this.handleSubmit} className="Reg-form">
-        <FormItem
-          {...formItemLayout}
-          label="E-mail"
-        >
-          <Input />
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Password"
-        >
-          <Input type="password" />
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Confirm Password"
-        >
-          <Input type="password" onBlur={this.handleConfirmBlur} />
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label={(
-            <span>
-              Nickname&nbsp;
+      <div className="Reg-panel">
+        <header className="Reg-header">
+          <h1 className="Reg-title">Web Note</h1>
+        </header>
+        <Form onSubmit={this.submitInfo} className="Reg-form">
+          <FormItem
+            {...formItemLayout}
+            label={(
+              <span>
+                Nickname&nbsp;
               <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          )}
-        >
-          <Input />
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Phone Number"
-        >
-          <Input
-            addonBefore={
-              <Select style={{ width: 70 }}>
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-              </Select>
-            }
-            style={{ width: '100%' }} />
-        </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
-        </FormItem>
-      </Form>
-      // <div className="Reg-panel">
-      //   <header className="Reg-header">
-      //     <h1 className="Reg-title">Registeration</h1>
-      //   </header>
-      //   <form action="">
-      //     <input
-      //       type="text"
-      //       placeholder="Name"
-      //       value={this.state.name}
-      //       onChange={this.getName}
-      //     />
-      //     <br />
-      //     <input
-      //       type="password"
-      //       placeholder="Password"
-      //       value={this.state.password}
-      //       onChange={this.getPassword}
-      //     />
-      //     <br />
-      //     <input
-      //       type="text"
-      //       placeholder="Email"
-      //       value={this.state.mail}
-      //       onChange={this.getMail}
-      //     />
-      //     <br />
-      //     <input
-      //       type="text"
-      //       placeholder="Phone Number"
-      //       value={this.state.phone}
-      //       onChange={this.getPhone}
-      //     />
-      //   </form>
-      //   <button className="submit-reg-button" onClick={this.submitInfo}>Submit</button>
-      // </div>
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
+            <Input
+              value={this.state.name}
+              onChange={this.getName}
+            />
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="E-mail">
+            <Input
+              type="email"
+              value={this.state.mail}
+              onChange={this.getMail}
+            />
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="Password">
+            <Input
+              type="password"
+              value={this.state.password}
+              onChange={this.getPassword}
+            />
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="Confirm Password">
+            <Input
+              type="password"
+              value={this.state.password_confirm}
+              onChange={this.getPasswordConfirm}
+            />
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="Phone Number">
+            <Input
+              // addonBefore={
+              //   <Select style={{ width: 70 }} default="86" >
+              //     <Option value="86">+86</Option>
+              //     <Option value="87">+87</Option>
+              //   </Select>
+              // }
+              style={{ width: '100%' }}
+              value={this.state.phone}
+              onChange={this.getPhone}
+            />
+          </FormItem>
+          <FormItem {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">Register</Button>
+          </FormItem>
+        </Form>
+      </div>
     );
   }
 }

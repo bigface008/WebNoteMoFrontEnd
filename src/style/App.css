@@ -15,8 +15,9 @@
 }
 
 .App-title {
-  color: azure;
+  color: rgb(29, 155, 85);
   font-size: 3.5em;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .App-intro {
@@ -29,9 +30,15 @@
 }
 
 .login-form {
-  text-align: center;
-  position: relative;
-  max-width: 300px;
+  /* text-align: center; */
+  position: absolute;
+  left: 50%;
+  width: 300px;
+  margin-left: -150px;
+}
+
+.login-form-remember {
+  float: left;
 }
 
 .login-form-forgot {

@@ -3,7 +3,6 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import StdPanel from "./student/StdPanel";
 import AdmPanel from "./admin/AdmPanel";
 import RegPanel from "./register/RegPanel.js";
-// import "antd/dist/antd.css";
 import "./style/App.css";
 
 const FormItem = Form.Item;
@@ -174,7 +173,7 @@ class App extends Component {
             />
           </FormItem>
           <FormItem>
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox className="login-form-remember">Remember me</Checkbox>
             <a className="login-form-forgot" href="">Forgot password</a>
             <Button
               type="primary"

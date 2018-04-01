@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Icon, Input, Checkbox } from "antd";
+import { List, Avatar, Tooltip, Button, Form, Icon, Input, Checkbox, Pagination, BackTop, Collapse } from "antd";
 import ProblemList from "./ProblemList";
 import ProEditor from "../editor/ProEditor";
 import TestPanel from "./TestPanel";
@@ -9,21 +9,28 @@ import "../style/Student.css";
 
 const Search = Input.Search;
 const FormItem = Form.Item;
+const Panel = Collapse.Panel;
 
 const INIT_PANEL = 0;
 const EDIT_PANEL = 1;
 const TEST_PANEL = 2;
 
+const PROBLEM_PER_PAGE = 10;
+
 function matchProblem(search_word, problem) {
-    console.log(problem.Name);
-    console.log(problem.problemID);
-    console.log(problem.subject);
-    console.log(problem.redoNumber);
+    // console.log(problem.Name);
+    // console.log(problem.problemID);
+    // console.log(problem.subject);
+    // console.log(problem.redoNumber);
     if ((problem.Name === search_word)
         || (problem.problemID === search_word)
         || (problem.subject === search_word)
         || (problem.redoNumber === search_word))
         return true;
+}
+
+function getProblemHeader(row) {
+    return "Problem " + row.problemID + "  " + row.Name;
 }
 
 class StdPanel extends React.Component {
@@ -40,10 +47,11 @@ class StdPanel extends React.Component {
             psd: this.props.psd,
             id: this.props.id,
             problems: this.props.problems,
-            show_problems: null,
+            show_problems: this.props.problems,
             show_panel: INIT_PANEL,
             search_word: "",
-            toggle_search: false
+            toggle_search: true,
+            chose_problem_id: null
         };
     }
 
@@ -52,11 +60,13 @@ class StdPanel extends React.Component {
         this.setState({ search_word: val });
     }
 
-    handleTest() {
+    handleTest(e) {
+        let val = e.target.value;
         this.setState({ show_panel: TEST_PANEL });
     }
 
-    handleEdit() {
+    handleEdit(e) {
+        let val = e.target.value;
         this.setState({ show_panel: EDIT_PANEL });
     }
 
@@ -66,7 +76,7 @@ class StdPanel extends React.Component {
         // console.log(this.state.problems.length);
         let temp = Array();
         for (let i = 0; i < this.state.problems.length; i++) {
-            if (matchProblem(this.state.search_word, this.state.problems[i]))
+            if (matchProblem(value, this.state.problems[i]))
                 temp.push(this.state.problems[i]);
         }
         this.setState({
@@ -77,32 +87,58 @@ class StdPanel extends React.Component {
     }
 
     getSearchTable() {
-        if (this.state.toggle_search) {
-            console.log(this.state.show_problems.length);
-            return (
-                <table className="problem-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Subject</th>
-                            <th>Latest Edit Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>{
-                        this.state.show_problems.map((row, rowid) =>
-                            <tr key={rowid}>
-                                <td>{row.problemID}</td>
-                                <td>{row.Name}</td>
-                                <td>{row.subject}</td>
-                                <td>{row.latestEditDate}</td>
-                            </tr>, this)
-                    }</tbody>
-                </table>
-            );
-        }
-        else
-            return <div />;
+        return (
+            // <Collapse accordion className="problem-table">{
+            //     this.state.show_problems.map((row, rowid) =>
+            //         <Panel className="single-row" header={getProblemHeader(row)}>
+            //             <Tooltip title="Redo the problem" onClick={this.handleTest} >
+            //                 <Icon type="edit" />
+            //             </Tooltip>
+            //             &nbsp;&nbsp;
+            //                  <Tooltip title="Edit the problem" onClick={this.handleEdit}>
+            //                 <Icon type="share-alt" />
+            //             </Tooltip>
+            //             <div className="single-problem-panel" >
+            //                 <p>{"Subject: " + row.subject}</p>
+            //                 <p>{"Latest Edit Date: " + row.latestEditDate}</p>
+            //             </div>
+            //         </Panel>, this)
+            // }</Collapse>
+            <table className="problem-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Subject</th>
+                        <th>Latest Edit Date</th>
+                    </tr>
+                </thead>
+                <tbody>{
+                    this.state.show_problems.map((row, rowid) =>
+                        <tr key={rowid}>
+                            <td>{row.problemID}</td>
+                            <td>{row.Name}</td>
+                            <td>{row.subject}</td>
+                            <td>{row.latestEditDate}</td>
+                            <Tooltip title="Redo the problem">
+                                <Icon
+                                    value={row.problemID}
+                                    type="edit"
+                                    onClick={this.handleTest}
+                                />
+                            </Tooltip>
+                            &nbsp;&nbsp;
+                            <Tooltip title="Edit the problem" >
+                                <Icon
+                                    value={row.problemID}
+                                    type="share-alt"
+                                    onClick={this.handleEdit}
+                                />
+                            </Tooltip>
+                        </tr>, this)
+                }</tbody>
+            </table>
+        );
     }
 
     render() {
@@ -114,10 +150,10 @@ class StdPanel extends React.Component {
             default:
                 return this.getInitPanel();
         }
-
     }
 
     getInitPanel() {
+        let temp = this.getSearchTable();
         return (
             <div className="Std-panel">
                 <header className="Std-header">
@@ -126,28 +162,31 @@ class StdPanel extends React.Component {
                         Hello, {this.state.usr}!
                     </p>
                 </header>
-                {/* <form action=""> */}
+                <p>
                     <Search
+                        className="search-form"
                         placeholder="input search text"
-                        // type="text"
-                        // suffix=""
-                        // value={this.state.search_word}
-                        // onChange={this.getSearchWord}
                         onSearch={value => this.handleSearch(value)}
                     />
-                {/* </form> */}
-                <Icon type="search" />
-                <ProblemList base={this.state.problems} />
-                <Button className="test-button" onClick={this.handleTest} >
-                    Test
-                </Button>
-                <Button className="add-problem-button" onClick={this.handleEdit} >
-                    Add a problem
-                </Button>
-                {/* <Button className="search-button" onClick={this.handleSearch} >
-                    Search
-                </Button> */}
-                {this.getSearchTable()}
+                </p>
+                <p>
+                    <Button className="test-button" onClick={this.handleTest} >
+                        Test
+                    </Button>
+                    <Button className="add-problem-button" onClick={this.handleEdit} >
+                        Add a problem
+                    </Button>
+                </p>
+                {/* <Pagination
+                    simple
+                    defaultCurrent={1}
+                    total={this.state.show_problems.length}
+                    showSizeChanger={true}
+                    pageSize={PROBLEM_PER_PAGE}
+                /> */}
+                <br />
+                {temp}
+                <BackTop />
             </div>
         );
     }
