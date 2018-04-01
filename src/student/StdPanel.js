@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, List, Avatar, Tooltip, Button, Form, Icon, Input, Checkbox, Pagination, BackTop, Collapse } from "antd";
-import ProblemList from "../problem/ProblemList";
+// import ProblemList from "../problem/ProblemList";
+import ProblemRow from "../problem/ProblemRow";
 import ProblemEditor from "../editor/ProblemEditor";
 import "../style/Student.css";
 
@@ -83,22 +84,43 @@ class StdPanel extends React.Component {
                 }
             case EDIT_PANEL:
                 {
-                    content = <ProblemEditor
-                        // className="problem-editor"
-                        type="edit" />;
+                    content = (<ProblemEditor
+                        problem={this.state.chose_problem}
+                        type="edit" />);
                     break;
                 }
             case ADD_PANEL:
                 {
                     content = (<ProblemEditor
-                        // className="problem-editor"
                         type="add" />);
+                    break;
+                }
+            case TEST_PANEL:
+                {
+                    content = (<div>
+                        <p>
+                            <Search
+                                className="search-form"
+                                placeholder="input search text"
+                                onSearch={value => this.handleSearch(value)} />
+                        </p>
+                        <p>
+                            <Button
+                                className="add-problem-button"
+                                onClick={this.handleAdd}>
+                                + Add a problem
+                                </Button>
+                        </p>
+                    </div>);
+                    content = (<ProblemEditor
+                        problem={this.state.chose_problem}
+                        type="test" />);
                     break;
                 }
             default:
                 break;
         }
-        // return (this.getModPanel());
+
         return (
             <div className="Std-panel">
                 <header className="Std-header">
@@ -107,47 +129,54 @@ class StdPanel extends React.Component {
                         Hello, {this.state.usr}!
                             </p>
                 </header>
-                {/* <p>
-                    <Search
-                        className="search-form"
-                        placeholder="input search text"
-                        onSearch={value => this.handleSearch(value)} />
-                </p> */}
-                {/* <p>
-                    <Button
-                        className="add-problem-button"
-                        onClick={this.handleAdd}>
-                        + Add a problem
-                            </Button>
-                </p> */}
                 {content}
-                <Collapse accordion className="problem-table">{
-                    this.state.show_problems.map((row, rowid) =>
-                        <Panel
-                            header={"Problem" + row.problemID + " " + row.Name}
-                            key={rowid}
-                            className="single-row">
-                            <div className="problem-icon">
+                <Collapse accordion
+                    defaultActiveKey={['0']}
+                    className="problem-table">{
+                        this.state.show_problems.map((row, rowid) =>
+                            <Panel
+                                header={"Problem" + row.problemID + " " + row.Name}
+                                key={rowid}
+                                className="single-row">
+                                <ProblemRow key={rowid} problem={row} />
+                                {/* <div className="problem-icon">
+                                    <Tooltip title="Confirm change">
+                                        <Icon
+                                            value={row.problemID}
+                                            type="check"
+                                        />
+                                    </Tooltip>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <Tooltip title="Delete the problem">
+                                        <Icon
+                                            value={row.problemID}
+                                            type="close"
+                                        />
+                                    </Tooltip>
+                                    &nbsp;&nbsp;&nbsp;
                                 <Tooltip title="Redo the problem">
-                                    <Icon
-                                        value={row.problemID}
-                                        type="edit"
-                                    />
-                                </Tooltip>
-                                &nbsp;&nbsp;&nbsp;
+                                        <Icon
+                                            value={row.problemID}
+                                            type="edit"
+                                        />
+                                    </Tooltip>
+                                    &nbsp;&nbsp;&nbsp;
                                         <Tooltip title="Edit the problem">
-                                    <Icon
-                                        value={row.problemID}
-                                        type="share-alt"
-                                    />
-                                </Tooltip>
-                            </div>
-                            <div className="single-problem-panel">
-                                <p>{"Subject: " + row.subject}</p>
-                                <p>{"Latest Edit Date: " + row.latestEditDate}</p>
-                            </div>
-                        </Panel>, this)
-                }</Collapse>
+                                        <Icon
+                                            value={row.problemID}
+                                            type="share-alt"
+                                        />
+                                    </Tooltip>
+                                </div>
+                                <div className="single-problem-panel">
+                                    <p>{"Subject: " + row.subject}</p>
+                                    <p>{"Add Date: " + row.addDate}</p>
+                                    <p>{"Semester: " + row.semester}</p>
+                                    <p>{"Latest Edit Date: " + row.latestEditDate}</p>
+                                    <p>{"Description: " + row.Description}</p>
+                                </div> */}
+                            </Panel>, this)}
+                </Collapse>
                 <BackTop />
             </div>
         );

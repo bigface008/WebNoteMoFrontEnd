@@ -8,10 +8,6 @@ const NORMAL = 0;
 const TEST = 1;
 const EDIT = 2;
 
-function getProblemHeader(row) {
-  return "Problem " + row.problemID + "  " + row.Name + "  " + row.subject;
-}
-
 class ProblemRow extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +17,6 @@ class ProblemRow extends React.Component {
     this.callbackTest = this.callbackTest.bind(this);
     this.state = {
       problem: this.props.problem,
-      rowid: this.props.rowid,
       mod: NORMAL
     }
   }
@@ -93,29 +88,40 @@ class ProblemRow extends React.Component {
     }
 
     return (
-      <Panel
-        header={"Problem" + this.state.problem.problemID + " " + this.state.problem.Name}
-        className="single-row">
+      <div>
         <div className="problem-icon">
+          <Tooltip title="Confirm change">
+            <Icon
+              value={this.state.problem.problemID}
+              type="check" />
+          </Tooltip>
+          &nbsp;&nbsp;&nbsp;
+          <Tooltip title="Delete the problem">
+            <Icon
+              value={this.state.problem.problemID}
+              type="close" />
+          </Tooltip>
+          &nbsp;&nbsp;&nbsp;
           <Tooltip title="Redo the problem">
             <Icon
               value={this.state.problem.problemID}
-              type="edit"
-            />
+              type="edit" />
           </Tooltip>
           &nbsp;&nbsp;&nbsp;
           <Tooltip title="Edit the problem">
             <Icon
               value={this.state.problem.problemID}
-              type="share-alt"
-            />
+              type="share-alt" />
           </Tooltip>
         </div>
         <div className="single-problem-panel">
           <p>{"Subject: " + this.state.problem.subject}</p>
+          <p>{"Add Date: " + this.state.problem.addDate}</p>
+          <p>{"Semester: " + this.state.problem.semester}</p>
           <p>{"Latest Edit Date: " + this.state.problem.latestEditDate}</p>
+          <p>{"Description: " + this.state.problem.Description}</p>
         </div>
-      </Panel>
+      </div>
     );
   }
 }

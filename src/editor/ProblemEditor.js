@@ -6,6 +6,7 @@ class ProblemEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: this.props.type,
       htmlContent: ``,
       // markdownContent: "## HEAD 2 \n markdown examples \n ``` welcome ```",
       responseList: []
@@ -31,8 +32,25 @@ class ProblemEditor extends Component {
       beforeUpload: this.beforeUpload,
       showUploadList: true
     }
+
+    let content;
+    if (this.state.type === "test") {
+      content = (
+        <div>
+          
+        </div>
+      );
+    }
+    else if (this.state.type === "edit") {
+
+    }
+    else if (this.state.type === "add") {
+
+    }
+
     return (
       <div className="problem-editor">
+        {content}
         <LzEditor
           active={true}
           importContent={this.state.htmlContent}
