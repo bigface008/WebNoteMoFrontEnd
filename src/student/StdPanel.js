@@ -60,24 +60,45 @@ class StdPanel extends React.Component {
     }
 
     render() {
+        let content;
         switch (this.state.show_panel) {
             case INIT_PANEL:
-                return this.getInitPanel();
+                {
+                    content = (<div>
+                        <p>
+                            <Search
+                                className="search-form"
+                                placeholder="input search text"
+                                onSearch={value => this.handleSearch(value)} />
+                        </p>
+                        <p>
+                            <Button
+                                className="add-problem-button"
+                                onClick={this.handleAdd}>
+                                + Add a problem
+                                </Button>
+                        </p>
+                    </div>);
+                    break;
+                }
             case EDIT_PANEL:
-                return <ProblemEditor
-                    className="problem-editor"
-                    type="edit"
-                />;
+                {
+                    content = <ProblemEditor
+                        // className="problem-editor"
+                        type="edit" />;
+                    break;
+                }
             case ADD_PANEL:
-                return <ProblemEditor
-                    className="problem-editor"
-                    type="add"
-                />;
+                {
+                    content = (<ProblemEditor
+                        // className="problem-editor"
+                        type="add" />);
+                    break;
+                }
+            default:
+                break;
         }
-        return (this.getModPanel());
-    }
-
-    getInitPanel() {
+        // return (this.getModPanel());
         return (
             <div className="Std-panel">
                 <header className="Std-header">
@@ -86,19 +107,20 @@ class StdPanel extends React.Component {
                         Hello, {this.state.usr}!
                             </p>
                 </header>
-                <p>
+                {/* <p>
                     <Search
                         className="search-form"
                         placeholder="input search text"
                         onSearch={value => this.handleSearch(value)} />
-                </p>
-                <p>
+                </p> */}
+                {/* <p>
                     <Button
                         className="add-problem-button"
                         onClick={this.handleAdd}>
                         + Add a problem
                             </Button>
-                </p>
+                </p> */}
+                {content}
                 <Collapse accordion className="problem-table">{
                     this.state.show_problems.map((row, rowid) =>
                         <Panel
@@ -129,6 +151,9 @@ class StdPanel extends React.Component {
                 <BackTop />
             </div>
         );
+    }
+
+    getInitPanel() {
     }
 }
 

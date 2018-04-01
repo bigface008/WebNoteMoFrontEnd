@@ -49,5 +49,8 @@
 }
 
 .problem-editor {
-  /* max-width: 800px; */
+  position: absolute;
+  left: 50%;
+  margin-left: -400px;
+  max-width: 800px;
 }
