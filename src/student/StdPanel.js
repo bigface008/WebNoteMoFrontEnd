@@ -1,10 +1,14 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, Form, Icon, Input, Checkbox } from "antd";
 import ProblemList from "./ProblemList";
 import ProEditor from "../editor/ProEditor";
 import TestPanel from "./TestPanel";
 import EditPanel from "./EditPanel";
 import SearchPanel from "./SearchPanel";
+import "./Student.css";
+
+const Search = Input.Search;
+const FormItem = Form.Item;
 
 const INIT_PANEL = 0;
 const EDIT_PANEL = 1;
@@ -56,16 +60,17 @@ class StdPanel extends React.Component {
         this.setState({ show_panel: EDIT_PANEL });
     }
 
-    handleSearch() {
-        console.log("SB");
-        console.log(this.state.search_word);
-        console.log(this.state.problems.length);
+    handleSearch(value) {
+        // console.log("SB");
+        // console.log(this.state.search_word);
+        // console.log(this.state.problems.length);
         let temp = Array();
         for (let i = 0; i < this.state.problems.length; i++) {
             if (matchProblem(this.state.search_word, this.state.problems[i]))
                 temp.push(this.state.problems[i]);
         }
         this.setState({
+            search_word: value,
             show_problems: temp,
             toggle_search: true
         });
@@ -75,7 +80,7 @@ class StdPanel extends React.Component {
         if (this.state.toggle_search) {
             console.log(this.state.show_problems.length);
             return (
-                <table>
+                <table className="problem-table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -117,17 +122,21 @@ class StdPanel extends React.Component {
             <div className="Std-panel">
                 <header className="Std-header">
                     <h1 className="Std-title">Web Note</h1>
+                    <p className="Usr-info">
+                        Hello, {this.state.usr}!
+                    </p>
                 </header>
-                <p className="Usr-info">
-                    Hello, {this.state.usr}!
-                </p>
-                <form action="">
-                    <input
-                        type="text"
-                        value={this.state.search_word}
-                        onChange={this.getSearchWord}
+                {/* <form action=""> */}
+                    <Search
+                        placeholder="input search text"
+                        // type="text"
+                        // suffix=""
+                        // value={this.state.search_word}
+                        // onChange={this.getSearchWord}
+                        onSearch={value => this.handleSearch(value)}
                     />
-                </form>
+                {/* </form> */}
+                <Icon type="search" />
                 <ProblemList base={this.state.problems} />
                 <Button className="test-button" onClick={this.handleTest} >
                     Test
@@ -135,9 +144,9 @@ class StdPanel extends React.Component {
                 <Button className="add-problem-button" onClick={this.handleEdit} >
                     Add a problem
                 </Button>
-                <Button className="search-button" onClick={this.handleSearch} >
+                {/* <Button className="search-button" onClick={this.handleSearch} >
                     Search
-                </Button>
+                </Button> */}
                 {this.getSearchTable()}
             </div>
         );
