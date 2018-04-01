@@ -114,9 +114,6 @@ class App extends Component {
           }
 
           let problems = findUserProblems(this.state.usr, pro_db);
-          console.log(this.state.usr);
-          console.log("problen db number", pro_db.length);
-          console.log("problems number", problems.length);
           this.setState({ problem: problems });
           return STUDENT_USR;
         }

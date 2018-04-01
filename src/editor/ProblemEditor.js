@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import LzEditor from "react-lz-editor";
 
-class ProEditor extends Component {
+class ProblemEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,4 +57,4 @@ class ProEditor extends Component {
   }
 }
 
-export default ProEditor;
+export default ProblemEditor;

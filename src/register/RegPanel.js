@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Tooltip, Icon, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 import "../style/register.css";
 
 const FormItem = Form.Item;

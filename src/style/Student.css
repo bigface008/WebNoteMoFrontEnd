@@ -28,7 +28,6 @@
   left: 50%;
   width: 600px;
   margin-left: -300px;
-  /* margin-left: -300px; */
 }
 
 .single-row {
@@ -49,10 +48,6 @@
   float: right;
 }
 
-.Std-footer {
-  bottom: 0%;
-  background-color: rgb(6, 126, 6);
-  font-family: 'Courier New', Courier, monospace;
-  height: 150px;
-  padding: 20px;
+.problem-editor {
+  /* max-width: 800px; */
 }
