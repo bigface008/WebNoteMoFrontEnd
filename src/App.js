@@ -4,7 +4,7 @@ import StdPanel from "./student/StdPanel";
 import AdmPanel from "./admin/AdmPanel";
 import RegPanel from "./register/RegPanel.js";
 // import "antd/dist/antd.css";
-import "./App.css";
+import "./style/App.css";
 
 const FormItem = Form.Item;
 

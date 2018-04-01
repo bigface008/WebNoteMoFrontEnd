@@ -5,7 +5,7 @@ import ProEditor from "../editor/ProEditor";
 import TestPanel from "./TestPanel";
 import EditPanel from "./EditPanel";
 import SearchPanel from "./SearchPanel";
-import "./Student.css";
+import "../style/Student.css";
 
 const Search = Input.Search;
 const FormItem = Form.Item;
