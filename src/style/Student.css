@@ -40,12 +40,13 @@
   text-align: left;
 }
 
-.test-button {
-  margin-right: 10px;
+.add-problem-button {
+  /* margin-left: 10px; */
+  width: 200px;
 }
 
-.add-problem-button {
-  margin-left: 10px;
+.problem-icon {
+  float: right;
 }
 
 .Std-footer {

@@ -9,7 +9,8 @@
     "semester": "2.1",
     "addDate": "2018.01.01",
     "latestEditDate": "2018.01.01",
-    "redoNumber": 1
+    "redoNumber": 1,
+    "answer": "None"
   },
   {
     "problemID": "002",
@@ -17,11 +18,12 @@
     "Name": "Runtime Error",
     "Description": "None",
     "Reason": "Compiler is an SB.",
-    "subject": "Web",
+    "subject": "WEB",
     "semester": "2.3",
     "addDate": "2017.01.01",
     "latestEditDate": "2018.01.01",
-    "redoNumber": 3
+    "redoNumber": 3,
+    "answer": "None"
   },
   {
     "problemID": "003",
@@ -33,7 +35,8 @@
     "semester": "2.2",
     "addDate": "2018.03.01",
     "latestEditDate": "2018.01.01",
-    "redoNumber": 1
+    "redoNumber": 1,
+    "answer": "None"
   },
   {
     "problemID": "004",
@@ -45,55 +48,8 @@
     "semester": "2.1",
     "addDate": "2018.01.01",
     "latestEditDate": "2018.01.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "005",
-    "userName": "bob",
-    "Name": "Unkown Fault",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "MG",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "006",
-    "userName": "bob",
-    "Name": "Unkown Fault",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "ICS",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "007",
-    "userName": "bob",
-    "Name": "Unkown Fault",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "SED",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "008",
-    "userName": "bob",
-    "Name": "Unkown Fault",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "ICS",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
+    "redoNumber": 1,
+    "answer": "None"
   },
   {
     "problemID": "009",
@@ -105,19 +61,8 @@
     "semester": "1.1",
     "addDate": "2018.10.01",
     "latestEditDate": "2018.12.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "010",
-    "userName": "bob",
-    "Name": "Unkown Fault",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "SE",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
+    "redoNumber": 1,
+    "answer": "None"
   },
   {
     "problemID": "011",
@@ -129,54 +74,7 @@
     "semester": "1.1",
     "addDate": "2018.10.01",
     "latestEditDate": "2018.12.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "012",
-    "userName": "bob",
-    "Name": "Design Bomb",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "WEB",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "013",
-    "userName": "bob",
-    "Name": "Segmentation Fault",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "ICS",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "014",
-    "userName": "bob",
-    "Name": "Unkown Fault",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "SE",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
-  },
-  {
-    "problemID": "015",
-    "userName": "bob",
-    "Name": "Database Bomb",
-    "Description": "Oh my god",
-    "Reason": "The world is wrong!!!!!!!!",
-    "subject": "DB",
-    "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
-    "redoNumber": 1
+    "redoNumber": 1,
+    "answer": "None"
   }
 ]
