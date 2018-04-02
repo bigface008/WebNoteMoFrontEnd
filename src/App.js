@@ -22,10 +22,10 @@ let pro_db = require('./data/problem.json');
 
 function findUserProblems(name, datas) {
   let result = [];
+  if (name === "admin")
+    return datas;
   for (let i = 0; i < datas.length; i++) {
-    if (datas[i].userName === name
-      || datas[i].userName === "admin"
-      || name === "admin")
+    if (datas[i].userName === name || datas[i].userName === "admin")
       result.push(datas[i]);
   }
   return result;
@@ -42,7 +42,6 @@ class App extends Component {
     this.getPsd = this.getPsd.bind(this);
     this.handleLog = this.handleLog.bind(this);
     this.handleReg = this.handleReg.bind(this);
-    this.checkInput = this.checkInput.bind(this);
     this.getLoginPanel = this.getLoginPanel.bind(this);
     this.getRegInfo = this.getRegInfo.bind(this);
     this.state = {
@@ -65,23 +64,30 @@ class App extends Component {
   }
 
   handleLog() {
-    let val = this.checkInput();
-    switch (val) {
-      case STUDENT_USR: // Show Student Panel.
-        this.setState({ show_panel: STD_PANEL });
-        break;
-      case ADMIN_USR: // Show Admin Panel.
-        this.setState({ show_panel: ADM_PANEL });
-        break;
-      case WRONG_USERNAME: // Wrong User name.
-        alert("wrong name");
-        break;
-      case WRONG_PASSWORD: // Wrong Password.
-        alert("wrong pass");
-        break;
-      default:
-        break;
+    for (let i = 0; i < usr_db.length; i++) {
+      let temp = usr_db[i];
+      if (temp.userName === this.state.usr) {
+        if (temp.userPassword === this.state.psd) {
+          if (temp.userType === "admin") {
+            this.setState({
+              show_panel: ADM_PANEL,
+              id: temp.userID
+            })
+            return;
+          }
+          else {
+            let pro = findUserProblems(this.state.usr, pro_db);
+            this.setState({
+              problem: pro,
+              show_panel: STD_PANEL,
+              id: temp.userID
+            })
+          }
+        }
+        alert("Wrong Password");
+      }
     }
+    alert("Wrong Username");
   }
 
   handleReg(e) {
@@ -104,26 +110,6 @@ class App extends Component {
     });
   }
 
-  checkInput() {
-    for (let i = 0; i < usr_db.length; i++) {
-      let temp = usr_db[i];
-      if (temp.userName === this.state.usr)
-        if (temp.userPassword === this.state.psd) {
-          this.setState({ id: temp.userID });
-
-          if (temp.userType === "admin") {
-            return ADMIN_USR;
-          }
-
-          let problems = findUserProblems(this.state.usr, pro_db);
-          this.setState({ problem: problems });
-          return STUDENT_USR;
-        }
-      return WRONG_PASSWORD;
-    }
-    return WRONG_USERNAME;
-  }
-
   render() {
     switch (this.state.show_panel) {
       case STD_PANEL:
@@ -137,7 +123,8 @@ class App extends Component {
           usr={this.state.usr}
           psd={this.state.psd}
           id={this.state.id}
-          problems={this.state.problem} />;
+          problems={pro_db}
+          users={usr_db} />;
       case REG_PANEL:
         return <RegPanel
           nameSet={usr_db}

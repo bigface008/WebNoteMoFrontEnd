@@ -37,7 +37,6 @@ class StdPanel extends React.Component {
         this.handleAdd = this.handleAdd.bind(this);
         this.handleDel = this.handleDel.bind(this);
         this.changeProblem = this.changeProblem.bind(this);
-        this.getInitPanel = this.getInitPanel.bind(this);
         this.state = {
             usr: this.props.usr,
             psd: this.props.psd,
@@ -148,16 +147,12 @@ class StdPanel extends React.Component {
                         </Button>
                     </p>
                 </div>
-                <Collapse accordion
-                    className="problem-table">{show_problems}
+                <Collapse accordion className="problem-table">{show_problems}
                 </Collapse>
 
                 <BackTop />
             </div>
         );
-    }
-
-    getInitPanel() {
     }
 }
 
