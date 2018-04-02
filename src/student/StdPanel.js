@@ -23,11 +23,6 @@ function matchProblem(search_word, problem) {
         return true;
 }
 
-function getFirstShowProblemID(show_problems) {
-    return show_problems[0].problemID;
-}
-
-
 class StdPanel extends React.Component {
     constructor(props) {
         super(props);
@@ -95,15 +90,13 @@ class StdPanel extends React.Component {
     changeProblem(new_problem) {
         let temp = this.state.problems;
         for (let i = 0; i < this.state.problems.length; i++)
-            if (temp[i].problemID === new_problem.problemID)
-            {
+            if (temp[i].problemID === new_problem.problemID) {
                 temp[i] = new_problem;
             }
 
         let temp0 = this.state.show_problems;
         for (let i = 0; i < this.state.show_problems.length; i++)
-            if (temp0[i].problemID === new_problem.problemID)
-            {
+            if (temp0[i].problemID === new_problem.problemID) {
                 temp0[i] = new_problem;
             }
 

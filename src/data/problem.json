@@ -7,11 +7,11 @@
     "Reason": "I am an SB.",
     "subject": "ICS",
     "semester": "2.1",
-    "addDate": "2018.01.01",
-    "latestEditDate": "2018.01.01",
+    "addDate": "2018.1.1",
+    "latestEditDate": "2018.1.1",
     "redoTimes": 0,
     "answer": {
-      "2018.01.01": "None."
+      "2018.1.1": "None."
     }
   },
   {
@@ -22,13 +22,13 @@
     "Reason": "Compiler is an SB.",
     "subject": "WEB",
     "semester": "2.3",
-    "addDate": "2017.01.01",
-    "latestEditDate": "2018.01.01",
+    "addDate": "2017.1.1",
+    "latestEditDate": "2018.1.1",
     "redoTimes": 2,
     "answer": {
-      "2017.01.01": "None.",
-      "2017.03.01": "None.",
-      "2017.08.01": "None."
+      "2017.1.1": "None.",
+      "2017.3.1": "None.",
+      "2017.8.1": "None."
     }
   },
   {
@@ -39,11 +39,11 @@
     "Reason": "I am an SB.",
     "subject": "ICS",
     "semester": "2.2",
-    "addDate": "2018.03.01",
-    "latestEditDate": "2018.01.01",
+    "addDate": "2018.3.01",
+    "latestEditDate": "2018.1.1",
     "redoTimes": 0,
     "answer": {
-      "2018.03.01": "None."
+      "2018.3.1": "None."
     }
   },
   {
@@ -54,11 +54,11 @@
     "Reason": "I am an SB.",
     "subject": "ICS",
     "semester": "2.1",
-    "addDate": "2018.01.01",
-    "latestEditDate": "2018.01.01",
+    "addDate": "2018.1.1",
+    "latestEditDate": "2018.1.1",
     "redoTimes": 0,
     "answer": {
-      "2018.01.01": "None."
+      "2018.1.1": "None."
     }
   },
   {
@@ -69,11 +69,11 @@
     "Reason": "The world is wrong!!!!!!!!",
     "subject": "ICS",
     "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
+    "addDate": "2018.10.1",
+    "latestEditDate": "2018.12.1",
     "redoTimes": 0,
     "answer": {
-      "2018.10.01": "None."
+      "2018.10.1": "None."
     }
   },
   {
@@ -84,11 +84,11 @@
     "Reason": "The world is wrong!!!!!!!!",
     "subject": "ICS",
     "semester": "1.1",
-    "addDate": "2018.10.01",
-    "latestEditDate": "2018.12.01",
+    "addDate": "2018.10.1",
+    "latestEditDate": "2018.12.1",
     "redoTimes": 0,
     "answer": {
-      "2018.10.01": "None."
+      "2018.10.1": "None."
     }
   }
 ]

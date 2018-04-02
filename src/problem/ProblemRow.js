@@ -1,5 +1,6 @@
 import React from "react";
 import { Input, Tooltip, Icon, Collapse } from "antd";
+import LzEditor from "react-lz-editor";
 import "../style/Student.css";
 
 const Panel = Collapse.Panel;
@@ -18,6 +19,16 @@ function getTodayDate() {
   return result;
 }
 
+function getAllAnswer(answers) {
+  let temp = [];
+  for (let i in answers) {
+    temp.push(
+      <div key={i}>{i + " " + answers[i]}</div>
+    );
+  }
+  return temp;
+}
+
 class ProblemRow extends React.Component {
   constructor(props) {
     super(props);
@@ -32,17 +43,19 @@ class ProblemRow extends React.Component {
     this.handleAbortTest = this.handleAbortTest.bind(this);
     this.handleFinishTest = this.handleFinishTest.bind(this);
     this.handleDel = this.handleDel.bind(this);
-    this.callbackEdit = this.callbackEdit.bind(this);
-    this.callbackTest = this.callbackTest.bind(this);
     this.getIconPanel = this.getIconPanel.bind(this);
     this.getProblemPanel = this.getProblemPanel.bind(this);
+    this.receiveDescription = this.receiveDescription.bind(this);
+    this.receiveReason = this.receiveReason.bind(this);
     this.state = {
       problem: this.props.problem,
       mod: NORMAL,
       answer_text: "",
       name_text: "",
       subject_text: "",
-      semester_text: ""
+      semester_text: "",
+      description_content: this.props.problem.Description,
+      reason_content: this.props.problem.Reason
     }
   }
 
@@ -79,7 +92,19 @@ class ProblemRow extends React.Component {
   }
 
   handleConfirmEdit() {
+    let new_problem = this.state.problem;
+    new_problem.Name = this.state.name_text;
+    new_problem.subject = this.state.subject_text;
+    new_problem.semester = this.state.semester_text;
+    new_problem.Description = this.state.description_content;
+    new_problem.Reason = this.state.reason_content;
 
+    this.setState({
+      mod: NORMAL,
+      problem: new_problem
+    })
+
+    this.props.callbackChangeProblem(new_problem);
   }
 
   handleAbortEdit() {
@@ -116,12 +141,14 @@ class ProblemRow extends React.Component {
     this.props.callbackDel(this.state.problem.problemID);
   }
 
-  callbackEdit() {
-
+  receiveDescription(content) {
+    console.log("des " + content);
+    this.setState({ description_content: content });
   }
 
-  callbackTest() {
-
+  receiveReason(content) {
+    console.log("reason " + content);
+    this.setState({ reason_content: content });
   }
 
   render() {
@@ -215,10 +242,11 @@ class ProblemRow extends React.Component {
             <p>{"Semester " + this.state.problem.semester}</p>
             <p>{"Latest Edit Date " + this.state.problem.latestEditDate}</p>
             <p>{"Description " + this.state.problem.Description}</p>
+            <p>{"Reason " + this.state.problem.Reason}</p>
             <p>{"Redo Times " + (this.state.problem.redoTimes)}</p>
-            <p>{"First Answer " +
-              this.state.problem.answer[this.state.problem.addDate]}
-            </p>
+            <p>{"All Answers"}</p>
+            <div>{getAllAnswer(this.state.problem.answer)}</div>
+            <br />
           </div>
         );
       case TEST:
@@ -237,22 +265,38 @@ class ProblemRow extends React.Component {
         return (
           <div className="single-problem-panel">
             <p>Title
-              <br/>
+              <br />
               <Input
+                defaultValue={this.state.problem.Name}
+                placeholder={this.state.problem.Name}
                 onChange={this.getNameText} />
             </p>
             <p>Subject
-              <br/>
+              <br />
               <Input
+                defaultValue={this.state.problem.subject}
+                placeholder={this.state.problem.subject}
                 onChange={this.getSubjectText} />
             </p>
             <p>Semester
-              <br/>
+              <br />
               <Input
+                defaultValue={this.state.problem.semester}
+                placeholder={this.state.problem.semester}
                 onChange={this.getSemesterText} />
             </p>
             <p>Description</p>
+            <LzEditor
+              active={true}
+              importContent={this.state.problem.Description}
+              cbReceiver={this.receiveDescription} />
+            <br />
             <p>Reason</p>
+            <LzEditor
+              active={true}
+              importContent={this.state.problem.Reason}
+              cbReceiver={this.receiveReason} />
+            <br />
           </div>
         );
       default:
