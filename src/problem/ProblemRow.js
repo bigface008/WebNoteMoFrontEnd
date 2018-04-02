@@ -22,6 +22,9 @@ class ProblemRow extends React.Component {
   constructor(props) {
     super(props);
     this.getAnswerText = this.getAnswerText.bind(this);
+    this.getNameText = this.getNameText.bind(this);
+    this.getSubjectText = this.getSubjectText.bind(this);
+    this.getSemesterText = this.getSemesterText.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleConfirmEdit = this.handleConfirmEdit.bind(this);
     this.handleAbortEdit = this.handleAbortEdit.bind(this);
@@ -36,14 +39,38 @@ class ProblemRow extends React.Component {
     this.state = {
       problem: this.props.problem,
       mod: NORMAL,
-      answer_text: ""
+      answer_text: "",
+      name_text: "",
+      subject_text: "",
+      semester_text: ""
     }
   }
 
   getAnswerText(e) {
-    let answer_val = e.target.value;
+    let val = e.target.value;
     this.setState({
-      answer_text: answer_val
+      answer_text: val
+    });
+  }
+
+  getNameText(e) {
+    let val = e.target.value;
+    this.setState({
+      name_text: val
+    });
+  }
+
+  getSubjectText(e) {
+    let val = e.target.value;
+    this.setState({
+      subject_text: val
+    });
+  }
+
+  getSemesterText(e) {
+    let val = e.target.value;
+    this.setState({
+      subject_text: val
     });
   }
 
@@ -209,7 +236,23 @@ class ProblemRow extends React.Component {
       case EDIT:
         return (
           <div className="single-problem-panel">
-
+            <p>Title
+              <br/>
+              <Input
+                onChange={this.getNameText} />
+            </p>
+            <p>Subject
+              <br/>
+              <Input
+                onChange={this.getSubjectText} />
+            </p>
+            <p>Semester
+              <br/>
+              <Input
+                onChange={this.getSemesterText} />
+            </p>
+            <p>Description</p>
+            <p>Reason</p>
           </div>
         );
       default:
