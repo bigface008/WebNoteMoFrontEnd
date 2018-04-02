@@ -34,6 +34,7 @@ class StdPanel extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.handleDel = this.handleDel.bind(this);
+        this.changeProblem = this.changeProblem.bind(this);
         this.getInitPanel = this.getInitPanel.bind(this);
         this.state = {
             usr: this.props.usr,
@@ -66,12 +67,12 @@ class StdPanel extends React.Component {
     }
 
     handleDel(problem_id) {
-        console.log(problem_id + " handle del in std");
+        // console.log(problem_id + " handle del in std");
         let temp = [];
         for (let i = 0; i < this.state.problems.length; i++) {
             if (problem_id != this.state.problems[i].problemID) {
                 temp.push(this.state.problems[i]);
-                console.log("problem " + this.state.problems[i].problemID);
+                // console.log("problem " + this.state.problems[i].problemID);
             }
         }
 
@@ -81,7 +82,7 @@ class StdPanel extends React.Component {
         for (let i = 0; i < this.state.show_problems.length; i++) {
             if (problem_id != this.state.show_problems[i].problemID) {
                 temp0.push(this.state.show_problems[i]);
-                console.log("show problem" + this.state.show_problems[i].problemID);
+                // console.log("show problem" + this.state.show_problems[i].problemID);
             }
         }
 
@@ -89,6 +90,29 @@ class StdPanel extends React.Component {
             problems: temp,
             show_problems: temp0
         });
+    }
+
+    changeProblem(new_problem) {
+        let temp = this.state.problems;
+        for (let i = 0; i < this.state.problems.length; i++)
+            if (temp[i].problemID === new_problem.problemID)
+            {
+                temp[i] = new_problem;
+            }
+
+        let temp0 = this.state.show_problems;
+        for (let i = 0; i < this.state.show_problems.length; i++)
+            if (temp0[i].problemID === new_problem.problemID)
+            {
+                temp0[i] = new_problem;
+            }
+
+        // Update database.
+
+        this.setState({
+            problems: temp,
+            show_problems: temp0
+        })
     }
 
     render() {
@@ -172,6 +196,7 @@ class StdPanel extends React.Component {
                                     key={rowid}
                                     problem={row}
                                     callbackDel={this.handleDel}
+                                    callbackChangeProblem={this.changeProblem}
                                 />
                             </Panel>, this)}
                 </Collapse>

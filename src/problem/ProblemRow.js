@@ -9,6 +9,12 @@ const NORMAL = 0;
 const TEST = 1;
 const EDIT = 2;
 
+function getTodayDate() {
+  let date = new Date();
+  return String(date.getFullYear)
+    + String(date.getMonth) + String(date.getDate);
+}
+
 class ProblemRow extends React.Component {
   constructor(props) {
     super(props);
@@ -32,8 +38,10 @@ class ProblemRow extends React.Component {
   }
 
   getAnswerText(e) {
-    let val = e.target.value;
-    this.setState({ answer_text: val });
+    let answer_val = e.target.value;
+    this.setState({
+      answer_text: answer_val
+    });
   }
 
   handleEdit() {
@@ -53,8 +61,17 @@ class ProblemRow extends React.Component {
   }
 
   handleFinishTest() {
+    let date_val = getTodayDate();
+    let new_problem = this.state.problem;
+    new_problem.answer[date_val] = this.state.answer_text;
+
+    this.props.callbackChangeProblem(new_problem);
+
+    this.setState({
+      problem: new_problem,
+      mode: NORMAL
+    });
     console.log(this.state.answer_text);
-    this.setState({ mod: NORMAL });
   }
 
   handleAbortTest() {
@@ -165,7 +182,10 @@ class ProblemRow extends React.Component {
             <p>{"Semester " + this.state.problem.semester}</p>
             <p>{"Latest Edit Date " + this.state.problem.latestEditDate}</p>
             <p>{"Description " + this.state.problem.Description}</p>
-            <p>{"Answer " + this.state.problem.answer}</p>
+            <p>{"Redo Times " + (this.state.problem.redoTimes)}</p>
+            <p>{"First Answer " +
+              this.state.problem.answer[this.state.problem.addDate]}
+            </p>
           </div>
         );
       case TEST:

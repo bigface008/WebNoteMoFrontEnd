@@ -9,8 +9,10 @@
     "semester": "2.1",
     "addDate": "2018.01.01",
     "latestEditDate": "2018.01.01",
-    "redoNumber": 1,
-    "answer": "None"
+    "redoTimes": 0,
+    "answer": {
+      "2018.01.01": "None."
+    }
   },
   {
     "problemID": "002",
@@ -22,8 +24,12 @@
     "semester": "2.3",
     "addDate": "2017.01.01",
     "latestEditDate": "2018.01.01",
-    "redoNumber": 3,
-    "answer": "None"
+    "redoTimes": 2,
+    "answer": {
+      "2017.01.01": "None.",
+      "2017.03.01": "None.",
+      "2017.08.01": "None."
+    }
   },
   {
     "problemID": "003",
@@ -35,8 +41,10 @@
     "semester": "2.2",
     "addDate": "2018.03.01",
     "latestEditDate": "2018.01.01",
-    "redoNumber": 1,
-    "answer": "None"
+    "redoTimes": 0,
+    "answer": {
+      "2018.03.01": "None."
+    }
   },
   {
     "problemID": "004",
@@ -48,8 +56,10 @@
     "semester": "2.1",
     "addDate": "2018.01.01",
     "latestEditDate": "2018.01.01",
-    "redoNumber": 1,
-    "answer": "None"
+    "redoTimes": 0,
+    "answer": {
+      "2018.01.01": "None."
+    }
   },
   {
     "problemID": "009",
@@ -61,8 +71,10 @@
     "semester": "1.1",
     "addDate": "2018.10.01",
     "latestEditDate": "2018.12.01",
-    "redoNumber": 1,
-    "answer": "None"
+    "redoTimes": 0,
+    "answer": {
+      "2018.10.01": "None."
+    }
   },
   {
     "problemID": "011",
@@ -74,7 +86,9 @@
     "semester": "1.1",
     "addDate": "2018.10.01",
     "latestEditDate": "2018.12.01",
-    "redoNumber": 1,
-    "answer": "None"
+    "redoTimes": 0,
+    "answer": {
+      "2018.10.01": "None."
+    }
   }
 ]
