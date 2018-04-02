@@ -215,15 +215,6 @@ class RegPanel extends Component {
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label="Confirm Password">
-            <Input
-              type="password"
-              value={this.state.password_confirm}
-              onChange={this.getPasswordConfirm}
-            />
-          </FormItem>
-          <FormItem
-            {...formItemLayout}
             label="Phone Number">
             <Input
               // addonBefore={

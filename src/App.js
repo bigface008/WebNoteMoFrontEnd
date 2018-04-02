@@ -23,7 +23,9 @@ let pro_db = require('./data/problem.json');
 function findUserProblems(name, datas) {
   let result = Array();
   for (let i = 0; i < datas.length; i++) {
-    if (datas[i].userName === name || datas[i].userName === "admin")
+    if (datas[i].userName === name
+      || datas[i].userName === "admin"
+      || name === "admin")
       result.push(datas[i]);
   }
   return result;
@@ -131,7 +133,11 @@ class App extends Component {
           id={this.state.id}
           problems={this.state.problem} />;
       case ADM_PANEL:
-        return <AdmPanel />;
+        return <AdmPanel
+          usr={this.state.usr}
+          psd={this.state.psd}
+          id={this.state.id}
+          problems={this.state.problem} />;
       case REG_PANEL:
         return <RegPanel
           nameSet={usr_db}

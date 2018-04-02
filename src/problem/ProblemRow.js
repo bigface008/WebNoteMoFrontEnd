@@ -92,19 +92,24 @@ class ProblemRow extends React.Component {
   }
 
   handleConfirmEdit() {
-    let new_problem = this.state.problem;
-    new_problem.Name = this.state.name_text;
-    new_problem.subject = this.state.subject_text;
-    new_problem.semester = this.state.semester_text;
-    new_problem.Description = this.state.description_content;
-    new_problem.Reason = this.state.reason_content;
+    let tmp = this.state.problem;
+    tmp.Name = this.state.name_text === "" ?
+      tmp.Name : this.state.name_text;
+    tmp.subject = this.state.subject_text === "" ?
+      tmp.subject : this.state.subject_text;
+    tmp.semester = this.state.semester_text === "" ?
+      tmp.semester : this.state.semester_text;
+    tmp.Description = this.state.description_content === "" ?
+      tmp.Description : this.state.description_content;
+    tmp.Reason = this.state.reason_content === "" ?
+      tmp.Reason : this.state.reason_content;
 
     this.setState({
       mod: NORMAL,
-      problem: new_problem
+      problem: tmp
     })
 
-    this.props.callbackChangeProblem(new_problem);
+    this.props.callbackChangeProblem(tmp);
   }
 
   handleAbortEdit() {

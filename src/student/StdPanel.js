@@ -1,8 +1,6 @@
 import React from "react";
 import { Table, List, Avatar, Tooltip, Button, Form, Icon, Input, Checkbox, Pagination, BackTop, Collapse } from "antd";
-// import ProblemList from "../problem/ProblemList";
 import ProblemRow from "../problem/ProblemRow";
-import ProblemEditor from "../editor/ProblemEditor";
 import "../style/Student.css";
 
 const Search = Input.Search;
@@ -21,6 +19,8 @@ function matchProblem(search_word, problem) {
         || (problem.redoNumber === search_word)
         || (search_word === ""))
         return true;
+    else
+        return false;
 }
 
 function getNewID() {
@@ -56,15 +56,8 @@ class StdPanel extends React.Component {
     }
 
     handleSearch(value) {
-        let temp = Array();
-        for (let i = 0; i < this.state.problems.length; i++) {
-            if (matchProblem(value, this.state.problems[i])) {
-                temp.push(this.state.problems[i]);
-            }
-        }
         this.setState({
             search_word: value,
-            show_problems: temp,
         });
     }
 
@@ -133,13 +126,33 @@ class StdPanel extends React.Component {
     }
 
     render() {
+        let show_problems = [];
+        for (let i = 0; i < this.state.problems.length; i++) {
+            if (matchProblem(this.state.search_word, this.state.problems[i])) {
+                let pro = this.state.problems[i];
+                show_problems.push(
+                    <Panel
+                        header={"Problem" + pro.problemID + " " + pro.Name}
+                        key={pro.problemID}
+                        className="single-row">
+                        <ProblemRow
+                            key={pro.problemID}
+                            problem={pro}
+                            callbackDel={this.handleDel}
+                            callbackChangeProblem={this.changeProblem}
+                        />
+                    </Panel>
+                );
+            }
+        }
+
         return (
             <div className="Std-panel">
                 <header className="Std-header">
                     <h1 className="Std-title">Web Note</h1>
                     <p className="Usr-info">
                         Hello, {this.state.usr}!
-                            </p>
+                    </p>
                 </header>
                 <div>
                     <p>
@@ -153,24 +166,13 @@ class StdPanel extends React.Component {
                             className="add-problem-button"
                             onClick={this.handleAdd}>
                             + Add a problem
-                                </Button>
+                        </Button>
                     </p>
                 </div>
                 <Collapse accordion
-                    className="problem-table">{
-                        this.state.show_problems.map((row, rowid) =>
-                            <Panel
-                                header={"Problem" + row.problemID + " " + row.Name}
-                                key={row.problemID}
-                                className="single-row">
-                                <ProblemRow
-                                    key={rowid}
-                                    problem={row}
-                                    callbackDel={this.handleDel}
-                                    callbackChangeProblem={this.changeProblem}
-                                />
-                            </Panel>, this)}
+                    className="problem-table">{show_problems}
                 </Collapse>
+
                 <BackTop />
             </div>
         );
