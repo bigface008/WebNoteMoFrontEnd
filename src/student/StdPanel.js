@@ -23,6 +23,19 @@ function matchProblem(search_word, problem) {
         return true;
 }
 
+function getNewID() {
+    return String(Math.floor(Math.random() * (900) + 100));
+}
+
+function getTodayDate() {
+    let date = new Date();
+    let result = String(date.getFullYear()) + "."
+        + String(date.getMonth()) + "."
+        + String(date.getDate());
+    console.log(result);
+    return result;
+}
+
 class StdPanel extends React.Component {
     constructor(props) {
         super(props);
@@ -37,7 +50,6 @@ class StdPanel extends React.Component {
             id: this.props.id,
             problems: this.props.problems,
             show_problems: this.props.problems,
-            show_panel: INIT_PANEL,
             search_word: "",
             chose_problem: null
         };
@@ -57,17 +69,30 @@ class StdPanel extends React.Component {
     }
 
     handleAdd() {
-        // console.log("SB");
-        this.setState({ show_panel: ADD_PANEL });
+        let new_problem = Object();
+        new_problem.Name = "None";
+        new_problem.userName = this.state.usr;
+        new_problem.problemID = getNewID();
+        new_problem.Description = "None";
+        new_problem.Reason = "None";
+        new_problem.subject = "None";
+        new_problem.semester = "None";
+        new_problem.latestEditDate = getTodayDate();
+        new_problem.redoTimes = 0;
+        new_problem.answer = { getTodayDate: "None" };
+
+        let all_problems = this.state.problems;
+        all_problems.unshift(new_problem);
+        this.setState({ problems: all_problems });
+
+        // Update database
     }
 
     handleDel(problem_id) {
-        // console.log(problem_id + " handle del in std");
         let temp = [];
         for (let i = 0; i < this.state.problems.length; i++) {
             if (problem_id != this.state.problems[i].problemID) {
                 temp.push(this.state.problems[i]);
-                // console.log("problem " + this.state.problems[i].problemID);
             }
         }
 
@@ -77,7 +102,6 @@ class StdPanel extends React.Component {
         for (let i = 0; i < this.state.show_problems.length; i++) {
             if (problem_id != this.state.show_problems[i].problemID) {
                 temp0.push(this.state.show_problems[i]);
-                // console.log("show problem" + this.state.show_problems[i].problemID);
             }
         }
 
@@ -109,66 +133,6 @@ class StdPanel extends React.Component {
     }
 
     render() {
-        let content;
-        switch (this.state.show_panel) {
-            case INIT_PANEL:
-                {
-                    content = (<div>
-                        <p>
-                            <Search
-                                className="search-form"
-                                placeholder="input search text"
-                                onSearch={value => this.handleSearch(value)} />
-                        </p>
-                        <p>
-                            <Button
-                                className="add-problem-button"
-                                onClick={this.handleAdd}>
-                                + Add a problem
-                                </Button>
-                        </p>
-                    </div>);
-                    break;
-                }
-            case EDIT_PANEL:
-                {
-                    content = (<ProblemEditor
-                        problem={this.state.chose_problem}
-                        type="edit" />);
-                    break;
-                }
-            case ADD_PANEL:
-                {
-                    content = (<ProblemEditor
-                        type="add" />);
-                    break;
-                }
-            case TEST_PANEL:
-                {
-                    content = (<div>
-                        <p>
-                            <Search
-                                className="search-form"
-                                placeholder="input search text"
-                                onSearch={value => this.handleSearch(value)} />
-                        </p>
-                        <p>
-                            <Button
-                                className="add-problem-button"
-                                onClick={this.handleAdd}>
-                                + Add a problem
-                                </Button>
-                        </p>
-                    </div>);
-                    content = (<ProblemEditor
-                        problem={this.state.chose_problem}
-                        type="test" />);
-                    break;
-                }
-            default:
-                break;
-        }
-
         return (
             <div className="Std-panel">
                 <header className="Std-header">
@@ -177,7 +141,21 @@ class StdPanel extends React.Component {
                         Hello, {this.state.usr}!
                             </p>
                 </header>
-                {content}
+                <div>
+                    <p>
+                        <Search
+                            className="search-form"
+                            placeholder="input search text"
+                            onSearch={value => this.handleSearch(value)} />
+                    </p>
+                    <p>
+                        <Button
+                            className="add-problem-button"
+                            onClick={this.handleAdd}>
+                            + Add a problem
+                                </Button>
+                    </p>
+                </div>
                 <Collapse accordion
                     className="problem-table">{
                         this.state.show_problems.map((row, rowid) =>
