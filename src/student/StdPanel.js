@@ -23,12 +23,17 @@ function matchProblem(search_word, problem) {
         return true;
 }
 
+function getFirstShowProblemID(show_problems) {
+    return show_problems[0].problemID;
+}
+
 
 class StdPanel extends React.Component {
     constructor(props) {
         super(props);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
+        this.handleDel = this.handleDel.bind(this);
         this.getInitPanel = this.getInitPanel.bind(this);
         this.state = {
             usr: this.props.usr,
@@ -58,6 +63,32 @@ class StdPanel extends React.Component {
     handleAdd() {
         // console.log("SB");
         this.setState({ show_panel: ADD_PANEL });
+    }
+
+    handleDel(problem_id) {
+        console.log(problem_id + " handle del in std");
+        let temp = [];
+        for (let i = 0; i < this.state.problems.length; i++) {
+            if (problem_id != this.state.problems[i].problemID) {
+                temp.push(this.state.problems[i]);
+                console.log("problem " + this.state.problems[i].problemID);
+            }
+        }
+
+        // Update database.
+
+        let temp0 = [];
+        for (let i = 0; i < this.state.show_problems.length; i++) {
+            if (problem_id != this.state.show_problems[i].problemID) {
+                temp0.push(this.state.show_problems[i]);
+                console.log("show problem" + this.state.show_problems[i].problemID);
+            }
+        }
+
+        this.setState({
+            problems: temp,
+            show_problems: temp0
+        });
     }
 
     render() {
@@ -131,50 +162,17 @@ class StdPanel extends React.Component {
                 </header>
                 {content}
                 <Collapse accordion
-                    defaultActiveKey={['0']}
                     className="problem-table">{
                         this.state.show_problems.map((row, rowid) =>
                             <Panel
                                 header={"Problem" + row.problemID + " " + row.Name}
-                                key={rowid}
+                                key={row.problemID}
                                 className="single-row">
-                                <ProblemRow key={rowid} problem={row} />
-                                {/* <div className="problem-icon">
-                                    <Tooltip title="Confirm change">
-                                        <Icon
-                                            value={row.problemID}
-                                            type="check"
-                                        />
-                                    </Tooltip>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <Tooltip title="Delete the problem">
-                                        <Icon
-                                            value={row.problemID}
-                                            type="close"
-                                        />
-                                    </Tooltip>
-                                    &nbsp;&nbsp;&nbsp;
-                                <Tooltip title="Redo the problem">
-                                        <Icon
-                                            value={row.problemID}
-                                            type="edit"
-                                        />
-                                    </Tooltip>
-                                    &nbsp;&nbsp;&nbsp;
-                                        <Tooltip title="Edit the problem">
-                                        <Icon
-                                            value={row.problemID}
-                                            type="share-alt"
-                                        />
-                                    </Tooltip>
-                                </div>
-                                <div className="single-problem-panel">
-                                    <p>{"Subject: " + row.subject}</p>
-                                    <p>{"Add Date: " + row.addDate}</p>
-                                    <p>{"Semester: " + row.semester}</p>
-                                    <p>{"Latest Edit Date: " + row.latestEditDate}</p>
-                                    <p>{"Description: " + row.Description}</p>
-                                </div> */}
+                                <ProblemRow
+                                    key={rowid}
+                                    problem={row}
+                                    callbackDel={this.handleDel}
+                                />
                             </Panel>, this)}
                 </Collapse>
                 <BackTop />

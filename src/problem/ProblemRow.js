@@ -13,8 +13,10 @@ class ProblemRow extends React.Component {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleTest = this.handleTest.bind(this);
+    this.handleDel = this.handleDel.bind(this);
     this.callbackEdit = this.callbackEdit.bind(this);
     this.callbackTest = this.callbackTest.bind(this);
+    this.getIconPanel = this.getIconPanel.bind(this);
     this.state = {
       problem: this.props.problem,
       mod: NORMAL
@@ -25,12 +27,17 @@ class ProblemRow extends React.Component {
     this.setState({ mod: EDIT });
   }
 
-  callbackEdit() {
-
-  }
-
   handleTest() {
     this.setState({ mod: TEST });
+  }
+
+  handleDel() {
+    console.log(this.state.problem.problemID + " del");
+    this.props.callbackDel(this.state.problem.problemID);
+  }
+
+  callbackEdit() {
+
   }
 
   callbackTest() {
@@ -38,82 +45,11 @@ class ProblemRow extends React.Component {
   }
 
   render() {
-    let content;
-    switch (this.state.mod) {
-      case TEST:
-        {
-          content = (
-            <div>
-
-            </div>
-          );
-          break;
-        }
-      case EDIT:
-        {
-          content = (
-            <div>
-
-            </div>
-          );
-          break;
-        }
-      default:
-        {
-          content = (
-            <Panel className="single-problem-panel" >
-              {/* <div className="problem-icon"> */}
-              <Tooltip title="Redo the problem">
-                <Icon
-                  value={this.state.problem.problemID}
-                  type="edit"
-                  onClick={this.handleTest}
-                />
-              </Tooltip>
-              &nbsp;&nbsp;&nbsp;
-                <Tooltip title="Edit the problem">
-                <Icon
-                  value={this.state.problem.problemID}
-                  type="share-alt"
-                  onClick={this.handleEdit}
-                />
-              </Tooltip>
-              {/* </div> */}
-              <p>{"Subject: " + this.state.problem.subject}</p>
-              <p>{"Latest Edit Date: " + this.state.problem.latestEditDate}</p>
-            </Panel>
-          );
-          break;
-        }
-    }
+    let icon_panel = this.getIconPanel();
 
     return (
       <div>
-        <div className="problem-icon">
-          <Tooltip title="Confirm change">
-            <Icon
-              value={this.state.problem.problemID}
-              type="check" />
-          </Tooltip>
-          &nbsp;&nbsp;&nbsp;
-          <Tooltip title="Delete the problem">
-            <Icon
-              value={this.state.problem.problemID}
-              type="close" />
-          </Tooltip>
-          &nbsp;&nbsp;&nbsp;
-          <Tooltip title="Redo the problem">
-            <Icon
-              value={this.state.problem.problemID}
-              type="edit" />
-          </Tooltip>
-          &nbsp;&nbsp;&nbsp;
-          <Tooltip title="Edit the problem">
-            <Icon
-              value={this.state.problem.problemID}
-              type="share-alt" />
-          </Tooltip>
-        </div>
+        {icon_panel}
         <div className="single-problem-panel">
           <p>{"Subject: " + this.state.problem.subject}</p>
           <p>{"Add Date: " + this.state.problem.addDate}</p>
@@ -123,6 +59,45 @@ class ProblemRow extends React.Component {
         </div>
       </div>
     );
+  }
+
+  getIconPanel() {
+    switch (this.state.mod) {
+      case NORMAL:
+        return (
+          <div className="problem-icon">
+            <Tooltip title="Confirm change">
+              <Icon
+                value={this.state.problem.problemID}
+                type="check" />
+            </Tooltip>
+            &nbsp;&nbsp;&nbsp;
+          <Tooltip title="Delete the problem">
+              <Icon
+                value={this.state.problem.problemID}
+                type="delete"
+                onClick={this.handleDel}
+              />
+            </Tooltip>
+            &nbsp;&nbsp;&nbsp;
+          <Tooltip title="Redo the problem">
+              <Icon
+                value={this.state.problem.problemID}
+                type="edit" />
+            </Tooltip>
+            &nbsp;&nbsp;&nbsp;
+          <Tooltip title="Edit the problem">
+              <Icon
+                value={this.state.problem.problemID}
+                type="share-alt" />
+            </Tooltip>
+          </div>
+        );
+      case TEST:
+      case EDIT:
+      default:
+        break;
+    }
   }
 }
 
