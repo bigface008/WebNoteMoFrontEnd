@@ -1,9 +1,8 @@
 import React from "react";
-import { Input, Tooltip, Icon, Collapse } from "antd";
+import { Input, Tooltip, Icon } from "antd";
 import LzEditor from "react-lz-editor";
 import "../style/Student.css";
 
-const Panel = Collapse.Panel;
 const { TextArea } = Input;
 
 const NORMAL = 0;

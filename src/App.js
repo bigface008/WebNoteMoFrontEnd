@@ -21,7 +21,7 @@ let usr_db = require("./data/user.json");
 let pro_db = require('./data/problem.json');
 
 function findUserProblems(name, datas) {
-  let result = Array();
+  let result = [];
   for (let i = 0; i < datas.length; i++) {
     if (datas[i].userName === name
       || datas[i].userName === "admin"

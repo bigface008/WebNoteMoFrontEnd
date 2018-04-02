@@ -1,35 +1,10 @@
-import React, { Component } from "react";
-import { Form, Input, Tooltip, Icon, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import React from "react";
+import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import "../style/register.css";
 
 const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
 
-class RegPanel extends Component {
+class RegPanel extends React.Component {
   constructor(props) {
     super(props);
     this.getName = this.getName.bind(this);
@@ -217,12 +192,6 @@ class RegPanel extends Component {
             {...formItemLayout}
             label="Phone Number">
             <Input
-              // addonBefore={
-              //   <Select style={{ width: 70 }} default="86" >
-              //     <Option value="86">+86</Option>
-              //     <Option value="87">+87</Option>
-              //   </Select>
-              // }
               style={{ width: '100%' }}
               value={this.state.phone}
               onChange={this.getPhone}

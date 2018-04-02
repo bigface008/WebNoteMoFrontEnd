@@ -1,16 +1,10 @@
 import React from "react";
-import { Table, List, Avatar, Tooltip, Button, Form, Icon, Input, Checkbox, Pagination, BackTop, Collapse } from "antd";
+import { Button, Input, BackTop, Collapse } from "antd";
 import ProblemRow from "../problem/ProblemRow";
 import "../style/Student.css";
 
 const Search = Input.Search;
-const FormItem = Form.Item;
 const Panel = Collapse.Panel;
-
-const INIT_PANEL = 0;
-const EDIT_PANEL = 1;
-const TEST_PANEL = 2;
-const ADD_PANEL = 3;
 
 function matchProblem(search_word, problem) {
     if ((problem.Name === search_word)
@@ -84,23 +78,15 @@ class StdPanel extends React.Component {
     handleDel(problem_id) {
         let temp = [];
         for (let i = 0; i < this.state.problems.length; i++) {
-            if (problem_id != this.state.problems[i].problemID) {
+            if (problem_id !== this.state.problems[i].problemID) {
                 temp.push(this.state.problems[i]);
             }
         }
 
         // Update database.
 
-        let temp0 = [];
-        for (let i = 0; i < this.state.show_problems.length; i++) {
-            if (problem_id != this.state.show_problems[i].problemID) {
-                temp0.push(this.state.show_problems[i]);
-            }
-        }
-
         this.setState({
             problems: temp,
-            show_problems: temp0
         });
     }
 
@@ -111,17 +97,10 @@ class StdPanel extends React.Component {
                 temp[i] = new_problem;
             }
 
-        let temp0 = this.state.show_problems;
-        for (let i = 0; i < this.state.show_problems.length; i++)
-            if (temp0[i].problemID === new_problem.problemID) {
-                temp0[i] = new_problem;
-            }
-
         // Update database.
 
         this.setState({
             problems: temp,
-            show_problems: temp0
         })
     }
 
