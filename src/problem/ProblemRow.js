@@ -11,8 +11,11 @@ const EDIT = 2;
 
 function getTodayDate() {
   let date = new Date();
-  return String(date.getFullYear)
-    + String(date.getMonth) + String(date.getDate);
+  let result = String(date.getFullYear()) + "."
+    + String(date.getMonth()) + "."
+    + String(date.getDate());
+  console.log(result);
+  return result;
 }
 
 class ProblemRow extends React.Component {
@@ -29,7 +32,7 @@ class ProblemRow extends React.Component {
     this.callbackEdit = this.callbackEdit.bind(this);
     this.callbackTest = this.callbackTest.bind(this);
     this.getIconPanel = this.getIconPanel.bind(this);
-    this.getPorblemPanel = this.getPorblemPanel.bind(this);
+    this.getProblemPanel = this.getProblemPanel.bind(this);
     this.state = {
       problem: this.props.problem,
       mod: NORMAL,
@@ -64,13 +67,16 @@ class ProblemRow extends React.Component {
     let date_val = getTodayDate();
     let new_problem = this.state.problem;
     new_problem.answer[date_val] = this.state.answer_text;
-
-    this.props.callbackChangeProblem(new_problem);
+    new_problem.redoTimes += 1;
+    new_problem.latestEditDate = date_val;
 
     this.setState({
       problem: new_problem,
-      mode: NORMAL
+      mod: NORMAL
     });
+
+    this.props.callbackChangeProblem(new_problem);
+
     console.log(this.state.answer_text);
   }
 
@@ -93,7 +99,7 @@ class ProblemRow extends React.Component {
 
   render() {
     let icon_panel = this.getIconPanel();
-    let problem_panel = this.getPorblemPanel();
+    let problem_panel = this.getProblemPanel();
 
     return (
       <div>
@@ -172,7 +178,7 @@ class ProblemRow extends React.Component {
     }
   }
 
-  getPorblemPanel() {
+  getProblemPanel() {
     switch (this.state.mod) {
       case NORMAL:
         return (
