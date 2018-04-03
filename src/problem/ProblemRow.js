@@ -1,7 +1,6 @@
 import React from "react";
 import { Input, Tooltip, Icon } from "antd";
 import LzEditor from "react-lz-editor";
-import "../style/Student.css";
 
 const { TextArea } = Input;
 
