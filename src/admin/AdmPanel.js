@@ -7,6 +7,9 @@ const Search = Input.Search;
 const Panel = Collapse.Panel;
 const TabPane = Tabs.TabPane;
 
+const PRO_PANEL = 0;
+const USR_PANEL = 0;
+
 function matchProblem(search_word, problem) {
   if ((problem.Name === search_word)
     || (problem.problemID === search_word)
@@ -16,6 +19,10 @@ function matchProblem(search_word, problem) {
     return true;
   else
     return false;
+}
+
+function matchUser(search_word, user) {
+  return true;
 }
 
 function getNewID() {
@@ -34,6 +41,8 @@ class AdmPanel extends React.Component {
   constructor(props) {
     super(props);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleSwitchUsers = this.handleSwitchUsers.bind(this);
+    this.handleSwitchProblems = this.handleSwitchProblems.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDel = this.handleDel.bind(this);
     this.changeProblem = this.changeProblem.bind(this);
@@ -42,6 +51,8 @@ class AdmPanel extends React.Component {
       psd: this.props.psd,
       id: this.props.id,
       problems: this.props.problems,
+      users: this.props.users,
+      show_panel: PRO_PANEL,
       show_problems: this.props.problems,
       search_word: "",
       chose_problem: null
@@ -52,6 +63,22 @@ class AdmPanel extends React.Component {
     this.setState({
       search_word: value,
     });
+  }
+
+  handleSwitchUsers() {
+    if (this.state.show_panel === PRO_PANEL)
+      this.setState({
+        show_panel: USR_PANEL,
+        search_word: ""
+      });
+  }
+
+  handleSwitchProblems() {
+    if (this.state.show_panel === USR_PANEL)
+      this.setState({
+        show_panel: PRO_PANEL,
+        search_word: ""
+      });
   }
 
   handleAdd() {
@@ -123,7 +150,35 @@ class AdmPanel extends React.Component {
         );
       }
     }
-    console.log(show_problems.length);
+    // console.log(show_problems.length);
+
+    let show_users = [];
+    for (let i = 0; i < this.state.users; i++) {
+      if (matchUser(this.state.search_word, this.state.users[i])) {
+        let usr = this.state.users[i];
+        show_users.push(
+          <Panel
+            header={"User" + usr.userID + " " + usr.userName}
+            key={usr.userID}
+            className="single-row">
+          </Panel>
+        );
+      }
+    }
+
+    let content;
+    if (this.state.show_panel === PRO_PANEL) {
+      content = (
+        <Collapse accordion className="problem-table">{show_problems}
+        </Collapse>
+      );
+    }
+    else if (this.state.show_panel === USR_PANEL) {
+      content = (
+        <Collapse accordion className="user-table">{show_users}
+        </Collapse>
+      );
+    }
 
     return (
       <div className="Adm-panel">
@@ -133,46 +188,35 @@ class AdmPanel extends React.Component {
             Hello, {this.state.usr}!
           </p>
         </header>
-        <Tabs defaultActiveKey="0">
-          <TabPane tab="Problem" key="0">
-            <div>
-              <p>
-                <Search
-                  className="search-form"
-                  placeholder="input search text"
-                  onSearch={value => this.handleSearch(value)} />
-              </p>
-              <p>
-                <Button
-                  className="add-problem-button"
-                  onClick={this.handleAdd}>
-                  + Add a problem
-                </Button>
-              </p>
-            </div>
-            <Collapse accordion className="problem-table">{show_problems}
-            </Collapse>
-          </TabPane>
-          <TabPane tab="User" key="1">
-            <div>
-              <p>
-                <Search
-                  className="search-form"
-                  placeholder="input search text"
-                  onSearch={value => this.handleSearch(value)} />
-              </p>
-              <p>
-                <Button
-                  className="add-problem-button"
-                  onClick={this.handleAdd}>
-                  + Add a problem
-                </Button>
-              </p>
-            </div>
-            <Collapse accordion className="problem-table">{show_problems}
-            </Collapse>
-          </TabPane>
-        </Tabs>
+        <div>
+          <p>
+            <Search
+              className="search-form"
+              placeholder="input search text"
+              onSearch={value => this.handleSearch(value)} />
+          </p>
+          <p>
+            <Button
+              className="switch-users-button"
+              onClick={this.handleSwitchUsers}>
+              Users
+            </Button>
+            &nbsp;&nbsp;
+            <Button
+              className="switch-problems-button"
+              onClick={this.handleSwitchProblems}>
+              Problems
+            </Button>
+          </p>
+          <p>
+            <Button
+              className="add-problem-button"
+              onClick={this.handleAdd}>
+              + Add a problem
+            </Button>
+          </p>
+        </div>
+        {content}
         <BackTop />
       </div>
     );
