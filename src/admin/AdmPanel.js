@@ -123,6 +123,7 @@ class AdmPanel extends React.Component {
         );
       }
     }
+    console.log(show_problems.length);
 
     return (
       <div className="Adm-panel">
@@ -130,25 +131,48 @@ class AdmPanel extends React.Component {
           <h1 className="Adm-title">Web Note</h1>
           <p className="Usr-info">
             Hello, {this.state.usr}!
-                    </p>
+          </p>
         </header>
-        <div>
-          <p>
-            <Search
-              className="search-form"
-              placeholder="input search text"
-              onSearch={value => this.handleSearch(value)} />
-          </p>
-          <p>
-            <Button
-              className="add-problem-button"
-              onClick={this.handleAdd}>
-              + Add a problem
-            </Button>
-          </p>
-        </div>
-        <Collapse accordion className="problem-table">{show_problems}
-        </Collapse>
+        <Tabs defaultActiveKey="0">
+          <TabPane tab="Problem" key="0">
+            <div>
+              <p>
+                <Search
+                  className="search-form"
+                  placeholder="input search text"
+                  onSearch={value => this.handleSearch(value)} />
+              </p>
+              <p>
+                <Button
+                  className="add-problem-button"
+                  onClick={this.handleAdd}>
+                  + Add a problem
+                </Button>
+              </p>
+            </div>
+            <Collapse accordion className="problem-table">{show_problems}
+            </Collapse>
+          </TabPane>
+          <TabPane tab="User" key="1">
+            <div>
+              <p>
+                <Search
+                  className="search-form"
+                  placeholder="input search text"
+                  onSearch={value => this.handleSearch(value)} />
+              </p>
+              <p>
+                <Button
+                  className="add-problem-button"
+                  onClick={this.handleAdd}>
+                  + Add a problem
+                </Button>
+              </p>
+            </div>
+            <Collapse accordion className="problem-table">{show_problems}
+            </Collapse>
+          </TabPane>
+        </Tabs>
         <BackTop />
       </div>
     );

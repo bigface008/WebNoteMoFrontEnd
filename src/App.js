@@ -7,11 +7,6 @@ import "./style/App.css";
 
 const FormItem = Form.Item;
 
-const STUDENT_USR = 0;
-const ADMIN_USR = 1;
-const WRONG_USERNAME = 2;
-const WRONG_PASSWORD = 3;
-
 const INIT_PANEL = 0;
 const STD_PANEL = 1;
 const ADM_PANEL = 2;

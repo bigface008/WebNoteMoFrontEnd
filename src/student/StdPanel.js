@@ -149,7 +149,6 @@ class StdPanel extends React.Component {
                 </div>
                 <Collapse accordion className="problem-table">{show_problems}
                 </Collapse>
-
                 <BackTop />
             </div>
         );
