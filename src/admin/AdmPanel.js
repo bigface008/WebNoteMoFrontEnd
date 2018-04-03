@@ -12,11 +12,11 @@ const PRO_PANEL = 0;
 const USR_PANEL = 1;
 
 function matchTags(search_word, tags) {
-    for (let i = 0; i < tags.length; i++) {
-        if (search_word === tags[i])
-            return true;
-    }
-    return false;
+  for (let i = 0; i < tags.length; i++) {
+    if (search_word === tags[i])
+      return true;
+  }
+  return false;
 }
 
 function matchProblem(search_word, problem) {

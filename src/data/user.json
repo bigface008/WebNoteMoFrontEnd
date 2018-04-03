@@ -1,6 +1,6 @@
 [
   {
-    "userID": 123,
+    "userID": "123",
     "userName": "bob",
     "userPassword": "note",
     "userType": "normal",
@@ -8,7 +8,7 @@
     "userPhone": "18069189552"
   },
   {
-    "userID": 234,
+    "userID": "234",
     "userName": "admin",
     "userPassword": "123",
     "userType": "admin",
