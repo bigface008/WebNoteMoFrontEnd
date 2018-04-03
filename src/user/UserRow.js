@@ -20,6 +20,7 @@ class UserRow extends React.Component {
     this.handleAbortEdit = this.handleAbortEdit.bind(this);
     this.handleDel = this.handleDel.bind(this);
     this.handleForbid = this.handleForbid.bind(this);
+    this.handleAllow = this.handleAllow.bind(this);
     this.getIconPanel = this.getIconPanel.bind(this);
     this.getUserPanel = this.getUserPanel.bind(this);
     this.state = {
@@ -111,6 +112,15 @@ class UserRow extends React.Component {
     this.props.callbackChangeUser(tmp);
   }
 
+  handleAllow() {
+    let tmp = this.state.user;
+    tmp.userType = "normal";
+
+    this.setState({ user: tmp });
+
+    this.props.callbackChangeUser(tmp);
+  }
+
   render() {
     let icon_panel = this.getIconPanel();
     let user_panel = this.getUserPanel();
@@ -133,6 +143,12 @@ class UserRow extends React.Component {
                 type="delete"
                 onClick={this.handleDel}
               />
+            </Tooltip>
+            &nbsp;&nbsp;&nbsp;
+            <Tooltip title="Allow operation of the user.">
+              <Icon
+                type="check-circle-o"
+                onClick={this.handleAllow} />
             </Tooltip>
             &nbsp;&nbsp;&nbsp;
             <Tooltip title="Forbid operation of the user.">

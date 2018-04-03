@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Tooltip, Icon } from "antd";
+import { Tag, Input, Tooltip, Icon } from "antd";
 import LzEditor from "react-lz-editor";
 
 const { TextArea } = Input;
@@ -27,6 +27,14 @@ function getAllAnswer(answers) {
   return temp;
 }
 
+function getAllTags(problem) {
+  let temp = "";
+  for (let i = 0; i < problem.tags.length; i++) {
+    temp += (problem.tags[i] + "; ");
+  }
+  return temp;
+}
+
 class ProblemRow extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +53,11 @@ class ProblemRow extends React.Component {
     this.getProblemPanel = this.getProblemPanel.bind(this);
     this.receiveDescription = this.receiveDescription.bind(this);
     this.receiveReason = this.receiveReason.bind(this);
+
+    // this.handleTagClose = this.handleTagClose.bind(this);
+    // this.showTagInput = this.showTagInput.bind(this);
+    // this.handleTagInputChange = this.handleTagInputChange.bind(this);
+    // this.handleTagInputConfirm = this.handleTagInputConfirm.bind(this);
     this.state = {
       problem: this.props.problem,
       mod: NORMAL,
@@ -53,7 +66,9 @@ class ProblemRow extends React.Component {
       subject_text: "",
       semester_text: "",
       description_content: this.props.problem.Description,
-      reason_content: this.props.problem.Reason
+      reason_content: this.props.problem.Reason,
+      tagInputVisible: false,
+      tagInputValue: ""
     }
   }
 
@@ -240,14 +255,15 @@ class ProblemRow extends React.Component {
       case NORMAL:
         return (
           <div className="single-problem-panel">
-            <p>{"Subject " + this.state.problem.subject}</p>
-            <p>{"Add Date " + this.state.problem.addDate}</p>
-            <p>{"Semester " + this.state.problem.semester}</p>
-            <p>{"Latest Edit Date " + this.state.problem.latestEditDate}</p>
-            <p>{"Description " + this.state.problem.Description}</p>
-            <p>{"Reason " + this.state.problem.Reason}</p>
-            <p>{"Redo Times " + (this.state.problem.redoTimes)}</p>
-            <p>{"All Answers"}</p>
+            <p>{"Tags: " + getAllTags(this.state.problem)}</p>
+            <p>{"Subject: " + this.state.problem.subject}</p>
+            <p>{"Add Date: " + this.state.problem.addDate}</p>
+            <p>{"Semester: " + this.state.problem.semester}</p>
+            <p>{"Latest Edit Date: " + this.state.problem.latestEditDate}</p>
+            <p>{"Description: " + this.state.problem.Description}</p>
+            <p>{"Reason: " + this.state.problem.Reason}</p>
+            <p>{"Redo Times: " + (this.state.problem.redoTimes)}</p>
+            <p>{"All Answers:"}</p>
             <div>{getAllAnswer(this.state.problem.answer)}</div>
             <br />
           </div>
@@ -255,7 +271,7 @@ class ProblemRow extends React.Component {
       case TEST:
         return (
           <div className="single-problem-panel">
-            <p>{"Description " + this.state.problem.Description}</p>
+            <p>{"Description: " + this.state.problem.Description}</p>
             <p>Answer</p>
             <TextArea
               onChange={this.getAnswerText}
@@ -267,6 +283,25 @@ class ProblemRow extends React.Component {
       case EDIT:
         return (
           <div className="single-problem-panel">
+            {/* <p>Tags
+              <br/>
+              <div>
+                {this.state.problem.tags.map((tag, index) => {
+                  const isLongTag = tag.length > 20;
+                  const tagElem = (
+                    <Tag key={tag} closable={index !== 0} afterClose={() => } >
+
+                    </Tag>
+                  );
+                })}
+                {
+
+                }
+                {
+
+                }
+              </div>
+            </p> */}
             <p>Title
               <br />
               <Input

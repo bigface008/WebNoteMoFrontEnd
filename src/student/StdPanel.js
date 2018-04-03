@@ -6,11 +6,20 @@ import "../style/Student.css";
 const Search = Input.Search;
 const Panel = Collapse.Panel;
 
+function matchTags(search_word, tags) {
+    for (let i = 0; i < tags.length; i++) {
+        if (search_word === tags[i])
+            return true;
+    }
+    return false;
+}
+
 function matchProblem(search_word, problem) {
     if ((problem.Name === search_word)
         || (problem.problemID === search_word)
         || (problem.subject === search_word)
         || (problem.redoNumber === search_word)
+        || (matchTags(search_word, problem.tags))
         || (search_word === ""))
         return true;
     else
@@ -68,6 +77,7 @@ class StdPanel extends React.Component {
         new_problem.latestEditDate = date;
         new_problem.redoTimes = 0;
         new_problem.answer = { date: "None" };
+        new_problem.tags = [];
 
         let all_problems = this.state.problems;
         all_problems.unshift(new_problem);

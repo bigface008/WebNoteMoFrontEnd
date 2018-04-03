@@ -12,7 +12,14 @@
     "redoTimes": 0,
     "answer": {
       "2018.1.1": "None."
-    }
+    },
+    "tags": [
+      "ICS",
+      "Segmentation Fault",
+      "2.1",
+      "0",
+      "admin"
+    ]
   },
   {
     "problemID": "002",
@@ -29,7 +36,14 @@
       "2017.1.1": "None.",
       "2017.3.1": "None.",
       "2017.8.1": "None."
-    }
+    },
+    "tags": [
+      "ICS",
+      "Segmentation Fault",
+      "2.1",
+      "2",
+      "admin"
+    ]
   },
   {
     "problemID": "003",
@@ -44,7 +58,14 @@
     "redoTimes": 0,
     "answer": {
       "2018.3.1": "None."
-    }
+    },
+    "tags": [
+      "ICS",
+      "Segmentation Fault",
+      "2.1",
+      "0",
+      "admin"
+    ]
   },
   {
     "problemID": "004",
@@ -59,7 +80,14 @@
     "redoTimes": 0,
     "answer": {
       "2018.1.1": "None."
-    }
+    },
+    "tags": [
+      "ICS",
+      "Segmentation Fault",
+      "2.1",
+      "0",
+      "my"
+    ]
   },
   {
     "problemID": "009",
@@ -74,7 +102,14 @@
     "redoTimes": 0,
     "answer": {
       "2018.10.1": "None."
-    }
+    },
+    "tags": [
+      "ICS",
+      "Unkown Fault",
+      "1.1",
+      "0",
+      "admin"
+    ]
   },
   {
     "problemID": "011",
@@ -89,6 +124,13 @@
     "redoTimes": 0,
     "answer": {
       "2018.10.1": "None."
-    }
+    },
+    "tags": [
+      "ICS",
+      "Hazard",
+      "1.1",
+      "0",
+      "admin"
+    ]
   }
 ]
