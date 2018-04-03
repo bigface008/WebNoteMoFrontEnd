@@ -77,12 +77,15 @@ class App extends Component {
               show_panel: STD_PANEL,
               id: temp.userID
             })
+            return;
           }
         }
         alert("Wrong Password");
+        return;
       }
     }
     alert("Wrong Username");
+    return;
   }
 
   handleReg(e) {

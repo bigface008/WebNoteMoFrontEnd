@@ -23,7 +23,12 @@ function matchProblem(search_word, problem) {
 }
 
 function matchUser(search_word, user) {
-  return true;
+  if ((user.userName === search_word)
+    || (user.userID === search_word)
+    || (search_word === ""))
+    return true;
+  else
+    return false;
 }
 
 function getNewID() {
@@ -89,16 +94,18 @@ class AdmPanel extends React.Component {
 
   handleAddProblem() {
     let new_problem = Object();
+    let date = getTodayDate();
     new_problem.Name = "None";
     new_problem.userName = this.state.usr;
     new_problem.problemID = getNewID();
+    new_problem.addDate = date;
     new_problem.Description = "None";
     new_problem.Reason = "None";
     new_problem.subject = "None";
     new_problem.semester = "None";
-    new_problem.latestEditDate = getTodayDate();
+    new_problem.latestEditDate = date;
     new_problem.redoTimes = 0;
-    new_problem.answer = { getTodayDate: "None" };
+    new_problem.answer = { date: "None" };
 
     let all_problems = this.state.problems;
     all_problems.unshift(new_problem);
@@ -170,8 +177,9 @@ class AdmPanel extends React.Component {
   changeUser(new_user) {
     let temp = this.state.users;
     for (let i = 0; i < this.state.users.length; i++) {
-      if (temp[i].problemID === new_user.problemID) {
+      if (temp[i].userID === new_user.userID) {
         temp[i] = new_user;
+        break;
       }
     }
 
@@ -195,7 +203,7 @@ class AdmPanel extends React.Component {
             <ProblemRow
               key={pro.problemID}
               problem={pro}
-              callbackDel={this.handleDel}
+              callbackDel={this.handleDelProblem}
               callbackChangeProblem={this.changeProblem}
             />
           </Panel>
@@ -204,22 +212,23 @@ class AdmPanel extends React.Component {
     }
 
     let show_users = [];
-    console.log(this.state.users);
     for (let i = 0; i < this.state.users.length; i++) {
       let usr = this.state.users[i];
-      show_users.push(
-        <Panel
-          header={"User" + usr.userID + " " + usr.userName}
-          key={usr.userID}
-          className="single-row">
-          <UserRow
+      if (matchUser(this.state.search_word, usr)) {
+        show_users.push(
+          <Panel
+            header={"User" + usr.userID + " " + usr.userName}
             key={usr.userID}
-            user={usr}
-            callbackDelUser={this.handleDelUser}
-            callbackChangeUser={this.changeUser}
-          />
-        </Panel>
-      );
+            className="single-row">
+            <UserRow
+              key={usr.userID}
+              user={usr}
+              callbackDelUser={this.handleDelUser}
+              callbackChangeUser={this.changeUser}
+            />
+          </Panel>
+        );
+      }
     }
     console.log(show_users.length);
 
@@ -244,7 +253,7 @@ class AdmPanel extends React.Component {
         <div>
           <p>
             <Button
-              className="add-problem-button"
+              className="add-user-button"
               onClick={this.handleAddUser}>
               + Add a User
             </Button>
@@ -283,13 +292,6 @@ class AdmPanel extends React.Component {
               Problems
             </Button>
           </p>
-          {/* <p>
-            <Button
-              className="add-problem-button"
-              onClick={this.handleAdd}>
-              + Add a {this.state.button_info}
-            </Button>
-          </p> */}
         </div>
         {content}
         <BackTop />

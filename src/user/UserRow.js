@@ -150,7 +150,7 @@ class UserRow extends React.Component {
         );
       case EDIT:
         return (
-          <div className="usesr-icon">
+          <div className="user-icon">
             <Tooltip title="Confirm change">
               <Icon
                 type="check"

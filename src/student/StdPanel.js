@@ -56,16 +56,18 @@ class StdPanel extends React.Component {
 
     handleAdd() {
         let new_problem = Object();
+        let date = getTodayDate();
         new_problem.Name = "None";
         new_problem.userName = this.state.usr;
         new_problem.problemID = getNewID();
+        new_problem.addDate = date;
         new_problem.Description = "None";
         new_problem.Reason = "None";
         new_problem.subject = "None";
         new_problem.semester = "None";
-        new_problem.latestEditDate = getTodayDate();
+        new_problem.latestEditDate = date;
         new_problem.redoTimes = 0;
-        new_problem.answer = { getTodayDate: "None" };
+        new_problem.answer = { date: "None" };
 
         let all_problems = this.state.problems;
         all_problems.unshift(new_problem);
