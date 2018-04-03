@@ -19,6 +19,7 @@ class UserRow extends React.Component {
     this.handleConfirmEdit = this.handleConfirmEdit.bind(this);
     this.handleAbortEdit = this.handleAbortEdit.bind(this);
     this.handleDel = this.handleDel.bind(this);
+    this.handleForbid = this.handleForbid.bind(this);
     this.getIconPanel = this.getIconPanel.bind(this);
     this.getUserPanel = this.getUserPanel.bind(this);
     this.state = {
@@ -30,51 +31,39 @@ class UserRow extends React.Component {
       type_text: "",
       email_text: "",
       phone_text: "",
-      description_content: this.props.problem.Description,
-      reason_content: this.props.problem.Reason
+      description_content: "",
+      reason_content: "",
     }
   }
 
   getIDText(e) {
     let val = e.target.value;
-    this.setState({
-      id_text: val
-    });
+    this.setState({ id_text: val });
   }
 
   getNameText(e) {
     let val = e.target.value;
-    this.setState({
-      name_text: val
-    });
+    this.setState({ name_text: val });
   }
 
   getPasswordText(e) {
     let val = e.target.value;
-    this.setState({
-      psd_text: val
-    });
+    this.setState({ psd_text: val });
   }
 
   getTypeText(e) {
     let val = e.target.value;
-    this.setState({
-      type_text: val
-    });
+    this.setState({ type_text: val });
   }
 
   getEmailText(e) {
     let val = e.target.value;
-    this.setState({
-      email_text: val
-    });
+    this.setState({ email_text: val });
   }
   
   getPhoneText(e) {
     let val = e.target.value;
-    this.setState({
-      phone_text: val
-    })
+    this.setState({ phone_text: val })
   }
 
   handleEdit() {
@@ -101,7 +90,7 @@ class UserRow extends React.Component {
       user: tmp
     })
 
-    this.props.callbackChangeProblem(tmp);
+    this.props.callbackChangeUser(tmp);
   }
 
   handleAbortEdit() {
@@ -109,8 +98,17 @@ class UserRow extends React.Component {
   }
 
   handleDel() {
-    console.log(this.state.problem.problemID + " del");
-    this.props.callbackDel(this.state.problem.problemID);
+    console.log(this.state.user.userID + " del");
+    this.props.callbackDelUser(this.state.user.userID);
+  }
+
+  handleForbid() {
+    let tmp = this.state.user;
+    tmp.userType = "forbid";
+
+    this.setState({ user: tmp });
+
+    this.props.callbackChangeUser(tmp);
   }
 
   render() {
@@ -130,24 +128,21 @@ class UserRow extends React.Component {
       case NORMAL:
         return (
           <div className="user-icon">
-            <Tooltip title="Delete the user">
+            <Tooltip title="Delete the user.">
               <Icon
-                value={this.state.problem.problemID}
                 type="delete"
                 onClick={this.handleDel}
               />
             </Tooltip>
             &nbsp;&nbsp;&nbsp;
-            <Tooltip title="Close the user">
+            <Tooltip title="Forbid operation of the user.">
               <Icon
-                value={this.state.problem.problemID}
-                type="edit"
-                onClick={this.handleTest} />
+                type="close-circle-o"
+                onClick={this.handleForbid} />
             </Tooltip>
             &nbsp;&nbsp;&nbsp;
-            <Tooltip title="Edit the user">
+            <Tooltip title="Edit information of the user.">
               <Icon
-                value={this.state.problem.problemID}
                 type="share-alt"
                 onClick={this.handleEdit} />
             </Tooltip>
@@ -158,14 +153,12 @@ class UserRow extends React.Component {
           <div className="usesr-icon">
             <Tooltip title="Confirm change">
               <Icon
-                value={this.state.problem.problemID}
                 type="check"
                 onClick={this.handleConfirmEdit} />
             </Tooltip>
             &nbsp;&nbsp;&nbsp;
             <Tooltip title="Abort change">
               <Icon
-                value={this.state.problem.problemID}
                 type="close"
                 onClick={this.handleAbortEdit} />
             </Tooltip>
