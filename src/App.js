@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import StdPanel from "./student/StdPanel";
-import AdmPanel from "./admin/AdmPanel";
-import RegPanel from "./register/RegPanel.js";
-import "./style/App.css";
+import StdPanel from "./StdPanel";
+import AdmPanel from "./AdmPanel";
+import RegPanel from "./RegPanel.js";
 
 const FormItem = Form.Item;
 

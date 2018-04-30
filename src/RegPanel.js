@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
-import "../style/register.css";
 
 const FormItem = Form.Item;
 

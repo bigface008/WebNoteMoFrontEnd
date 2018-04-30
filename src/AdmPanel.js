@@ -1,8 +1,7 @@
 import React from "react";
 import { Tabs, Button, Input, BackTop, Collapse } from "antd";
-import ProblemRow from "../problem/ProblemRow";
-import UserRow from "../user/UserRow";
-import "../style/Admin.css";
+import ProblemRow from "./ProblemRow";
+import UserRow from "./UserRow";
 
 const Search = Input.Search;
 const Panel = Collapse.Panel;
@@ -24,7 +23,7 @@ function matchProblem(search_word, problem) {
     || (problem.problemID === search_word)
     || (problem.subject === search_word)
     || (problem.redoNumber === search_word)
-    || (matchTags(search_word, problem.tags))
+    // || (matchTags(search_word, problem.tags))
     || (search_word === ""))
     return true;
   else

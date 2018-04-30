@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Input, BackTop, Collapse } from "antd";
-import ProblemRow from "../problem/ProblemRow";
-import "../style/Student.css";
+import ProblemRow from "./ProblemRow";
 
 const Search = Input.Search;
 const Panel = Collapse.Panel;
