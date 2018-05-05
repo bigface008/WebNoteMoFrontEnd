@@ -118,7 +118,8 @@ class App extends Component {
       {},
       function (data) {
         this.setState({ pro_db: JSON.parse(data) });
-      }.bind(this))
+      }.bind(this));
+    this.serverRequest = $.post("WebNoteTest00/")
   }
 
   render() {
