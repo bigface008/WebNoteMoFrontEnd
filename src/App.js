@@ -3,6 +3,7 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import StdPanel from "./StdPanel";
 import AdmPanel from "./AdmPanel";
 import RegPanel from "./RegPanel.js";
+import $ from "jquery";
 
 const FormItem = Form.Item;
 
@@ -10,9 +11,6 @@ const INIT_PANEL = 0;
 const STD_PANEL = 1;
 const ADM_PANEL = 2;
 const REG_PANEL = 3;
-
-let usr_db = require("./data/user.json");
-let pro_db = require('./data/problem.json');
 
 function findUserProblems(name, datas) {
   let result = [];
@@ -32,19 +30,23 @@ function generateID(usr) {
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      usr: "",
+      psd: "",
+      info: null,
+      isValid: false,
+      show_panel: INIT_PANEL,
+      usr_db: [],
+      pro_db: []
+    };
     this.getUsr = this.getUsr.bind(this);
     this.getPsd = this.getPsd.bind(this);
     this.handleLog = this.handleLog.bind(this);
     this.handleReg = this.handleReg.bind(this);
     this.getLoginPanel = this.getLoginPanel.bind(this);
     this.getRegInfo = this.getRegInfo.bind(this);
-    this.state = {
-      usr: "",
-      psd: "",
-      id: "",
-      problem: null,
-      show_panel: INIT_PANEL
-    };
+    this.setStudentSource = this.setStudentSource.bind(this);
+    this.setAdminSource = this.setAdminSource.bind(this);
   }
 
   getUsr(e) {
@@ -58,33 +60,19 @@ class App extends Component {
   }
 
   handleLog() {
-    for (let i = 0; i < usr_db.length; i++) {
-      let temp = usr_db[i];
-      if (temp.userName === this.state.usr) {
-        if (temp.userPassword === this.state.psd) {
-          if (temp.userType === "admin") {
-            this.setState({
-              show_panel: ADM_PANEL,
-              id: temp.userID
-            })
-            return;
-          }
-          else {
-            let pro = findUserProblems(this.state.usr, pro_db);
-            this.setState({
-              problem: pro,
-              show_panel: STD_PANEL,
-              id: temp.userID
-            })
-            return;
-          }
+    this.serverRequest = $.post("WebNoteTest00/checkuser",
+      { name: this.state.usr, pwd: this.state.psd },
+      function (data) {
+        let result = JSON.parse(data);
+        if (result) {
+          if (this.state.usr === "admin")
+            this.setState({ show_panel: ADM_PANEL });
+          else
+            this.setState({ show_panel: STD_PANEL });
         }
-        alert("Wrong Password");
-        return;
-      }
-    }
-    alert("Wrong Username");
-    return;
+        else
+          alert("Please check your name and password again.");
+      }.bind(this));
   }
 
   handleReg(e) {
@@ -94,7 +82,7 @@ class App extends Component {
 
   getRegInfo(info_list) {
     let temp_id = generateID(info_list.name);
-    let temp_pro = findUserProblems(info_list.name, pro_db);
+    let temp_pro = findUserProblems(info_list.name, this.state.pro_db);
 
     // Write database
 
@@ -102,29 +90,57 @@ class App extends Component {
       usr: info_list.name,
       psd: info_list.password,
       id: temp_id,
-      problem: temp_pro,
+      pro_db: temp_pro,
       show_panel: STD_PANEL
     });
   }
 
+  setStudentSource() {
+    this.serverRequest = $.post("WebNoteTest00/UserManager",
+      { name: this.state.usr },
+      function (data) {
+        this.setState({ info: JSON.parse(data) });
+      }.bind(this));
+    this.serverRequest = $.post("WebNoteTest00/ProblemManager",
+      { name: this.state.usr },
+      function (data) {
+        this.setState({ pro_db: JSON.parse(data) })
+      }.bind(this))
+  }
+
+  setAdminSource() {
+    this.serverRequest = $.post("WebNoteTest00/UserManager",
+      { name: this.state.usr },
+      function (data) {
+        this.setState({ info: JSON.parse(data) });
+      }.bind(this));
+    this.serverRequest = $.post("WebNoteTest00/ProblemManager",
+      {},
+      function (data) {
+        this.setState({ pro_db: JSON.parse(data) });
+      }.bind(this))
+  }
+
   render() {
     switch (this.state.show_panel) {
-      case STD_PANEL:
+      case STD_PANEL: {
         return <StdPanel
           usr={this.state.usr}
           psd={this.state.psd}
-          id={this.state.id}
-          problems={this.state.problem} />;
-      case ADM_PANEL:
+          info={this.state.info}
+          problems={this.state.pro_db} />;
+      }
+      case ADM_PANEL: {
         return <AdmPanel
           usr={this.state.usr}
           psd={this.state.psd}
-          id={this.state.id}
-          problems={pro_db}
-          users={usr_db} />;
+          info={this.state.info}
+          problems={this.state.pro_db}
+          users={this.state.usr_db} />;
+      }
       case REG_PANEL:
         return <RegPanel
-          nameSet={usr_db}
+          nameSet={this.state.usr_db}
           callbackParent={this.getRegInfo} />;
       default:
         return this.getLoginPanel();
