@@ -33,11 +33,13 @@ class App extends Component {
     this.state = {
       usr: "",
       psd: "",
+      id: null,
       info: null,
       isValid: false,
       show_panel: INIT_PANEL,
       usr_db: [],
-      pro_db: []
+      pro_db: [],
+      name_db: []
     };
     this.getUsr = this.getUsr.bind(this);
     this.getPsd = this.getPsd.bind(this);
@@ -47,6 +49,7 @@ class App extends Component {
     this.getRegInfo = this.getRegInfo.bind(this);
     this.setStudentSource = this.setStudentSource.bind(this);
     this.setAdminSource = this.setAdminSource.bind(this);
+    this.getSourceData = this.getSourceData.bind(this);
   }
 
   getUsr(e) {
@@ -60,19 +63,46 @@ class App extends Component {
   }
 
   handleLog() {
-    this.serverRequest = $.post("WebNoteTest00/checkuser",
-      { name: this.state.usr, pwd: this.state.psd },
-      function (data) {
-        let result = JSON.parse(data);
-        if (result) {
-          if (this.state.usr === "admin")
-            this.setState({ show_panel: ADM_PANEL });
-          else
-            this.setState({ show_panel: STD_PANEL });
+    for (let i = 0; i < this.state.usr_db.length; i++) {
+      let temp = this.state.usr_db[i];
+      if (temp.userName === this.state.usr) {
+        if (temp.userPassword === this.state.psd) {
+          if (temp.userType === "admin") {
+            this.setState({
+              show_panel: ADM_PANEL,
+              id: temp.userID
+            })
+            return;
+          }
+          else {
+            let pro = findUserProblems(this.state.usr, this.state.pro_db);
+            this.setState({
+              problem: pro,
+              show_panel: STD_PANEL,
+              id: temp.userID
+            })
+            return;
+          }
         }
-        else
-          alert("Please check your name and password again.");
-      }.bind(this));
+        alert("Wrong Password");
+        return;
+      }
+    }
+    alert("Wrong Username");
+    return;
+    // this.serverRequest = $.post("/checkUser",
+    //   { name: this.state.usr, pwd: this.state.psd },
+    //   function (data) {
+    //     let result = JSON.parse(data);
+    //     if (result) {
+    //       if (this.state.usr === "admin")
+    //         this.setState({ show_panel: ADM_PANEL });
+    //       else
+    //         this.setState({ show_panel: STD_PANEL });
+    //     }
+    //     else
+    //       alert("Please check your name and password again.");
+    //   }.bind(this));
   }
 
   handleReg(e) {
@@ -96,12 +126,12 @@ class App extends Component {
   }
 
   setStudentSource() {
-    this.serverRequest = $.post("WebNoteTest00/UserManager",
+    this.serverRequest = $.post("/getUserId",
       { name: this.state.usr },
       function (data) {
-        this.setState({ info: JSON.parse(data) });
+        this.setState({ id: JSON.parse(data) });
       }.bind(this));
-    this.serverRequest = $.post("WebNoteTest00/ProblemManager",
+    this.serverRequest = $.post("/ProblemManager",
       { name: this.state.usr },
       function (data) {
         this.setState({ pro_db: JSON.parse(data) })
@@ -109,40 +139,66 @@ class App extends Component {
   }
 
   setAdminSource() {
-    this.serverRequest = $.post("WebNoteTest00/UserManager",
+    this.serverRequest = $.post("/getUserId",
       { name: this.state.usr },
       function (data) {
-        this.setState({ info: JSON.parse(data) });
+        this.setState({ id: JSON.parse(data) });
       }.bind(this));
-    this.serverRequest = $.post("WebNoteTest00/ProblemManager",
+    this.serverRequest = $.post("/ProblemManager",
       {},
       function (data) {
         this.setState({ pro_db: JSON.parse(data) });
       }.bind(this));
-    this.serverRequest = $.post("WebNoteTest00/")
+    // this.serverRequest = $.post("WebNoteBackEnd/");
+  }
+
+  setRegSource() {
+    this.serverRequest = $.post("WebNoteBackEnd/",
+      function (data) {
+        this.setState({ name_db: JSON.parse(data) });
+      }.bind(this));
+  }
+
+  getSourceData() {
+    if (this.state.isValid) return;
+    this.serverRequest = $.post("/UserManager",
+      function (data) {
+        console.log(JSON.parse(data));
+        this.setState({ usr_db: JSON.parse(data) });
+      }.bind(this));
+    this.serverRequest = $.post("/ProblemManager",
+      function (data) {
+        console.log(JSON.parse(data));
+        this.setState({ pro_db: JSON.parse(data) });
+      }.bind(this));
+    this.setState({ isValid: true });
+    console.log("problems: " + this.state.pro_db);
+    console.log("users: " + this.state.usr_db);
   }
 
   render() {
+    this.getSourceData();
     switch (this.state.show_panel) {
       case STD_PANEL: {
         return <StdPanel
           usr={this.state.usr}
           psd={this.state.psd}
-          info={this.state.info}
+          id={this.state.id}
           problems={this.state.pro_db} />;
       }
       case ADM_PANEL: {
         return <AdmPanel
           usr={this.state.usr}
           psd={this.state.psd}
-          info={this.state.info}
+          id={this.state.id}
           problems={this.state.pro_db}
           users={this.state.usr_db} />;
       }
-      case REG_PANEL:
+      case REG_PANEL: {
         return <RegPanel
           nameSet={this.state.usr_db}
           callbackParent={this.getRegInfo} />;
+      }
       default:
         return this.getLoginPanel();
     }
