@@ -18,7 +18,7 @@ function matchProblem(search_word, problem) {
         || (problem.problemID === search_word)
         || (problem.subject === search_word)
         || (problem.redoNumber === search_word)
-        || (matchTags(search_word, problem.tags))
+        // || (matchTags(search_word, problem.tags))
         || (search_word === ""))
         return true;
     else

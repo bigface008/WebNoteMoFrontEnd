@@ -27,13 +27,13 @@ function getAllAnswer(answers) {
   return temp;
 }
 
-function getAllTags(problem) {
-  let temp = "";
-  for (let i = 0; i < problem.tags.length; i++) {
-    temp += (problem.tags[i] + "; ");
-  }
-  return temp;
-}
+// function getAllTags(problem) {
+//   let temp = "";
+//   for (let i = 0; i < problem.tags.length; i++) {
+//     temp += (problem.tags[i] + "; ");
+//   }
+//   return temp;
+// }
 
 class ProblemRow extends React.Component {
   constructor(props) {
@@ -255,7 +255,7 @@ class ProblemRow extends React.Component {
       case NORMAL:
         return (
           <div className="single-problem-panel">
-            <p>{"Tags: " + getAllTags(this.state.problem)}</p>
+            {/* <p>{"Tags: " + getAllTags(this.state.problem)}</p> */}
             <p>{"Subject: " + this.state.problem.subject}</p>
             <p>{"Add Date: " + this.state.problem.addDate}</p>
             <p>{"Semester: " + this.state.problem.semester}</p>

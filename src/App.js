@@ -13,28 +13,38 @@ const ADM_PANEL = 2;
 const REG_PANEL = 3;
 
 function getProblems(raw_problem) {
-  let problems = new Object();
-  problems.problemID = raw_problem[0];
-  problems.userName = raw_problem[1];
-  problems.Name = raw_problem[2];
-  problems.subject = raw_problem[3];
-  problems.Description = raw_problem[4];
-  problems.Reason = raw_problem[5];
-  problems.addDate = raw_problem[6];
-  problems.answer = raw_problem[7];
-  problems.semester = raw_problem[8];
-  problems.redoTimes = raw_problem[9];
+  let problems = [];
+  for (let i = 0; i < raw_problem.length; i++) {
+    let temp = new Object();
+    temp.problemID = raw_problem[i][0];
+    temp.userName = raw_problem[i][1];
+    temp.Name = raw_problem[i][2];
+    temp.subject = raw_problem[i][3];
+    temp.Description = raw_problem[i][4];
+    temp.Reason = raw_problem[i][5];
+    temp.addDate = raw_problem[i][6];
+    // temp.answer = raw_problem[i][7];
+    temp.answer = new Object();
+    temp.answer[temp.addDate] = raw_problem[i][7];
+    temp.semester = raw_problem[i][8];
+    temp.redoTimes = raw_problem[i][9];
+    problems.push(temp);
+  }
   return problems;
 }
 
 function getUsers(raw_user) {
-  let users = new Object();
-  users.userID = raw_user[0];
-  users.userName = raw_user[1];
-  users.userPassword = raw_user[2];
-  users.userType = raw_user[3];
-  users.userEmail = raw_user[4];
-  users.userPhone = raw_user[5];
+  let users = [];
+  for (let i = 0; i < raw_user.length; i++) {
+    let temp = new Object();
+    temp.userID = raw_user[i][0];
+    temp.userName = raw_user[i][1];
+    temp.userPassword = raw_user[i][2];
+    temp.userType = raw_user[i][3];
+    temp.userEmail = raw_user[i][4];
+    temp.userPhone = raw_user[i][5];
+    users.push(temp);
+  }
   return users;
 }
 
@@ -73,8 +83,6 @@ class App extends Component {
     this.handleReg = this.handleReg.bind(this);
     this.getLoginPanel = this.getLoginPanel.bind(this);
     this.getRegInfo = this.getRegInfo.bind(this);
-    // this.setStudentSource = this.setStudentSource.bind(this);
-    // this.setAdminSource = this.setAdminSource.bind(this);
     this.getSourceData = this.getSourceData.bind(this);
   }
 
@@ -191,8 +199,10 @@ class App extends Component {
     this.serverRequest = $.get("/Source",
       function (data) {
         let result = JSON.parse(data);
-        console.log("problem: " + getProblems(result[0]));
-        console.log("user: " + getUsers(result[1]));
+        let problem = getProblems(result[0]);
+        let user = getUsers(result[1]);
+        // console.log("problem: " + );
+        console.log("user: " + user[0].userName + "password: " + user[0].userPassword);
         this.setState({
           usr_db: getUsers(result[1]),
           pro_db: getProblems(result[0]),
