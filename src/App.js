@@ -12,6 +12,32 @@ const STD_PANEL = 1;
 const ADM_PANEL = 2;
 const REG_PANEL = 3;
 
+function getProblems(raw_problem) {
+  let problems = new Object();
+  problems.problemID = raw_problem[0];
+  problems.userName = raw_problem[1];
+  problems.Name = raw_problem[2];
+  problems.subject = raw_problem[3];
+  problems.Description = raw_problem[4];
+  problems.Reason = raw_problem[5];
+  problems.addDate = raw_problem[6];
+  problems.answer = raw_problem[7];
+  problems.semester = raw_problem[8];
+  problems.redoTimes = raw_problem[9];
+  return problems;
+}
+
+function getUsers(raw_user) {
+  let users = new Object();
+  users.userID = raw_user[0];
+  users.userName = raw_user[1];
+  users.userPassword = raw_user[2];
+  users.userType = raw_user[3];
+  users.userEmail = raw_user[4];
+  users.userPhone = raw_user[5];
+  return users;
+}
+
 function findUserProblems(name, datas) {
   let result = [];
   if (name === "admin")
@@ -47,8 +73,8 @@ class App extends Component {
     this.handleReg = this.handleReg.bind(this);
     this.getLoginPanel = this.getLoginPanel.bind(this);
     this.getRegInfo = this.getRegInfo.bind(this);
-    this.setStudentSource = this.setStudentSource.bind(this);
-    this.setAdminSource = this.setAdminSource.bind(this);
+    // this.setStudentSource = this.setStudentSource.bind(this);
+    // this.setAdminSource = this.setAdminSource.bind(this);
     this.getSourceData = this.getSourceData.bind(this);
   }
 
@@ -65,6 +91,7 @@ class App extends Component {
   handleLog() {
     for (let i = 0; i < this.state.usr_db.length; i++) {
       let temp = this.state.usr_db[i];
+      console.log(temp);
       if (temp.userName === this.state.usr) {
         if (temp.userPassword === this.state.psd) {
           if (temp.userType === "admin") {
@@ -125,55 +152,53 @@ class App extends Component {
     });
   }
 
-  setStudentSource() {
-    this.serverRequest = $.post("/getUserId",
-      { name: this.state.usr },
-      function (data) {
-        this.setState({ id: JSON.parse(data) });
-      }.bind(this));
-    this.serverRequest = $.post("/ProblemManager",
-      { name: this.state.usr },
-      function (data) {
-        this.setState({ pro_db: JSON.parse(data) })
-      }.bind(this))
-  }
+  // setStudentSource() {
+  //   this.serverRequest = $.post("/getUserId",
+  //     { name: this.state.usr },
+  //     function (data) {
+  //       this.setState({ id: JSON.parse(data) });
+  //     }.bind(this));
+  //   this.serverRequest = $.post("/ProblemManager",
+  //     { name: this.state.usr },
+  //     function (data) {
+  //       this.setState({ pro_db: JSON.parse(data) })
+  //     }.bind(this))
+  // }
 
-  setAdminSource() {
-    this.serverRequest = $.post("/getUserId",
-      { name: this.state.usr },
-      function (data) {
-        this.setState({ id: JSON.parse(data) });
-      }.bind(this));
-    this.serverRequest = $.post("/ProblemManager",
-      {},
-      function (data) {
-        this.setState({ pro_db: JSON.parse(data) });
-      }.bind(this));
-    // this.serverRequest = $.post("WebNoteBackEnd/");
-  }
+  // setAdminSource() {
+  //   this.serverRequest = $.post("/getUserId",
+  //     { name: this.state.usr },
+  //     function (data) {
+  //       this.setState({ id: JSON.parse(data) });
+  //     }.bind(this));
+  //   this.serverRequest = $.post("/ProblemManager",
+  //     {},
+  //     function (data) {
+  //       this.setState({ pro_db: JSON.parse(data) });
+  //     }.bind(this));
+  //   // this.serverRequest = $.post("WebNoteBackEnd/");
+  // }
 
-  setRegSource() {
-    this.serverRequest = $.post("WebNoteBackEnd/",
-      function (data) {
-        this.setState({ name_db: JSON.parse(data) });
-      }.bind(this));
-  }
+  // setRegSource() {
+  //   this.serverRequest = $.post("WebNoteBackEnd/",
+  //     function (data) {
+  //       this.setState({ name_db: JSON.parse(data) });
+  //     }.bind(this));
+  // }
 
   getSourceData() {
     if (this.state.isValid) return;
-    this.serverRequest = $.post("/UserManager",
+    this.serverRequest = $.get("/Source",
       function (data) {
-        console.log(JSON.parse(data));
-        this.setState({ usr_db: JSON.parse(data) });
+        let result = JSON.parse(data);
+        console.log("problem: " + getProblems(result[0]));
+        console.log("user: " + getUsers(result[1]));
+        this.setState({
+          usr_db: getUsers(result[1]),
+          pro_db: getProblems(result[0]),
+          isValid: true
+        });
       }.bind(this));
-    this.serverRequest = $.post("/ProblemManager",
-      function (data) {
-        console.log(JSON.parse(data));
-        this.setState({ pro_db: JSON.parse(data) });
-      }.bind(this));
-    this.setState({ isValid: true });
-    console.log("problems: " + this.state.pro_db);
-    console.log("users: " + this.state.usr_db);
   }
 
   render() {
