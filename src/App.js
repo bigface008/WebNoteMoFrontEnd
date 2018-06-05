@@ -12,49 +12,55 @@ const STD_PANEL = 1;
 const ADM_PANEL = 2;
 const REG_PANEL = 3;
 
-function getProblems(raw_problem) {
+const path_port = "http://localhost:8080";
+
+function transProblems(raw_problem, raw_user) {
   let problems = [];
   for (let i = 0; i < raw_problem.length; i++) {
     let temp = new Object();
-    temp.problemID = raw_problem[i][0];
-    temp.userName = raw_problem[i][1];
-    temp.Name = raw_problem[i][2];
-    temp.subject = raw_problem[i][3];
-    temp.Description = raw_problem[i][4];
-    temp.Reason = raw_problem[i][5];
-    temp.addDate = raw_problem[i][6];
-    // temp.answer = raw_problem[i][7];
+    temp.problemID = raw_problem[i].problemid;
+    temp.userName = ((id) => {
+      for (let i = 0; i < raw_user.length; i++)
+        if (id == raw_user[i].userID)
+          return raw_user[i].userName;
+    })(raw_problem[i].userid);
+    console.log("problem user name: " + temp.userName);
+    temp.Name = raw_problem[i].problemname;
+    temp.subject = raw_problem[i].subject;
+    temp.Description = raw_problem[i].description;
+    temp.Reason = raw_problem[i].reason;
+    temp.addDate = raw_problem[i].adddate;
     temp.answer = new Object();
-    temp.answer[temp.addDate] = raw_problem[i][7];
-    temp.semester = raw_problem[i][8];
-    temp.redoTimes = raw_problem[i][9];
+    temp.answer[temp.addDate] = raw_problem[i].answer;
+    temp.semester = raw_problem[i].semester;
+    temp.redoTimes = raw_problem[i].redotimes;
     problems.push(temp);
   }
   return problems;
 }
 
-function getUsers(raw_user) {
+function transUsers(raw_user) {
   let users = [];
   for (let i = 0; i < raw_user.length; i++) {
     let temp = new Object();
-    temp.userID = raw_user[i][0];
-    temp.userName = raw_user[i][1];
-    temp.userPassword = raw_user[i][2];
-    temp.userType = raw_user[i][3];
-    temp.userEmail = raw_user[i][4];
-    temp.userPhone = raw_user[i][5];
+    temp.userID = raw_user[i].userid;
+    temp.userName = raw_user[i].username;
+    temp.userPassword = raw_user[i].userpassword;
+    temp.userType = raw_user[i].usertype;
+    temp.userEmail = raw_user[i].useremail;
+    temp.userPhone = raw_user[i].userphone;
     users.push(temp);
   }
   return users;
 }
 
-function findUserProblems(name, datas) {
+function findUserProblems(name, problems) {
   let result = [];
-  if (name === "admin")
-    return datas;
-  for (let i = 0; i < datas.length; i++) {
-    if (datas[i].userName === name || datas[i].userName === "admin")
-      result.push(datas[i]);
+  console.log("Func findUserProblems: name = " + name);
+  console.log("Func findUserProblems: problems = " + problems);
+  for (let i = 0; i < problems.length; i++) {
+    if (problems[i].userName === name || problems[i].userName === "admin")
+      result.push(problems[i]);
   }
   return result;
 }
@@ -97,34 +103,46 @@ class App extends Component {
   }
 
   handleLog() {
-    for (let i = 0; i < this.state.usr_db.length; i++) {
-      let temp = this.state.usr_db[i];
-      console.log(temp);
-      if (temp.userName === this.state.usr) {
-        if (temp.userPassword === this.state.psd) {
-          if (temp.userType === "admin") {
-            this.setState({
-              show_panel: ADM_PANEL,
-              id: temp.userID
-            })
-            return;
-          }
-          else {
-            let pro = findUserProblems(this.state.usr, this.state.pro_db);
-            this.setState({
-              problem: pro,
-              show_panel: STD_PANEL,
-              id: temp.userID
-            })
+    this.serverRequest = $.get(path_port + "/problem/all",
+      (data) => {
+        console.log(data);
+        let problems = transProblems(data, this.state.usr_db);
+        console.log("transfered users: " + this.state.usr_db[0].userName);
+        console.log("transfered problems: " + problems);
+        for (let i = 0; i < this.state.usr_db.length; i++) {
+          let temp = this.state.usr_db[i];
+          console.log(temp);
+          if (temp.userName === this.state.usr) {
+            if (temp.userPassword === this.state.psd) {
+              if (temp.userType === "admin") {
+                this.setState({
+                  pro_db: problems,
+                  show_panel: ADM_PANEL,
+                  id: temp.userID
+                })
+                return;
+              }
+              else {
+                console.log("pro db: " + this.state.pro_db);
+                let pro = findUserProblems(temp.userName, problems);
+                console.log("filtered problems: " + pro);
+                this.setState({
+                  pro_db: pro,
+                  show_panel: STD_PANEL,
+                  id: temp.userID
+                })
+                return;
+              }
+            }
+            alert("Wrong Password");
             return;
           }
         }
-        alert("Wrong Password");
+        alert("Wrong Username");
         return;
       }
-    }
-    alert("Wrong Username");
-    return;
+    );
+
     // this.serverRequest = $.post("/checkUser",
     //   { name: this.state.usr, pwd: this.state.psd },
     //   function (data) {
@@ -196,16 +214,13 @@ class App extends Component {
 
   getSourceData() {
     if (this.state.isValid) return;
-    this.serverRequest = $.get("/Source",
+    this.serverRequest = $.get(path_port + "/user/all",
       function (data) {
-        let result = JSON.parse(data);
-        let problem = getProblems(result[0]);
-        let user = getUsers(result[1]);
-        // console.log("problem: " + );
-        console.log("user: " + user[0].userName + "password: " + user[0].userPassword);
+        console.log(data);
+        let user = data;
+        // console.log("user: " + user[0].username + "password: " + user[0].userpassword);
         this.setState({
-          usr_db: getUsers(result[1]),
-          pro_db: getProblems(result[0]),
+          usr_db: transUsers(data),
           isValid: true
         });
       }.bind(this));
