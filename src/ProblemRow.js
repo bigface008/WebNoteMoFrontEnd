@@ -1,12 +1,30 @@
 import React from "react";
-import { Tag, Input, Tooltip, Icon } from "antd";
+import { Tag, Input, Tooltip, Icon, Button, Upload, message } from "antd";
 import LzEditor from "react-lz-editor";
+import $ from "jquery";
 
 const { TextArea } = Input;
 
 const NORMAL = 0;
 const TEST = 1;
 const EDIT = 2;
+
+const path_port = "http://localhost:8080";
+
+// const props = {
+//   name: "picture",
+//   action: path_port + "/problem/savePicture",
+//   onChange(info) {
+//     if (info.file.status !== "uploading") {
+//       console.log(info.file, info.fileList);
+//     }
+//     if (info.file.status === "done") {
+//       message.success(`${info.file.name} file uploaded successfully.`);
+//     } else if (info.file.status === 'error') {
+//       message.success(`${info.file.name} file upload failed.`)
+//     }
+//   }
+// };
 
 function getTodayDate() {
   let date = new Date();
@@ -27,13 +45,29 @@ function getAllAnswer(answers) {
   return temp;
 }
 
-// function getAllTags(problem) {
-//   let temp = "";
-//   for (let i = 0; i < problem.tags.length; i++) {
-//     temp += (problem.tags[i] + "; ");
-//   }
-//   return temp;
-// }
+function beforeUploadPicture(file) {
+  // if (!(file.size / 1024 / 1024 < 2))
+  //   alert("Your image must be smaller than 2MB!");
+  let isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Your image must be smaller than 2MB!");
+  }
+  return isLt2M;
+  // let reader = new FileReader();
+  // reader.readAsDataURL(file);
+  // let newSet = this.state.pictureSet;
+  // newSet.push(reader.result);
+  // reader.onloadend = () => {
+  //   this.setState({ pictureSet: newSet })
+  // }
+  // console.log("Get img set: " + this.state.pictureSet);
+}
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 
 class ProblemRow extends React.Component {
   constructor(props) {
@@ -53,6 +87,8 @@ class ProblemRow extends React.Component {
     this.getProblemPanel = this.getProblemPanel.bind(this);
     this.receiveDescription = this.receiveDescription.bind(this);
     this.receiveReason = this.receiveReason.bind(this);
+    this.handlePictureChange = this.handlePictureChange.bind(this);
+    this.beforeUpload = this.beforeUpload.bind(this);
 
     // this.handleTagClose = this.handleTagClose.bind(this);
     // this.showTagInput = this.showTagInput.bind(this);
@@ -68,7 +104,9 @@ class ProblemRow extends React.Component {
       description_content: this.props.problem.Description,
       reason_content: this.props.problem.Reason,
       tagInputVisible: false,
-      tagInputValue: ""
+      tagInputValue: "",
+      pictureSet: "",
+      loading: false,
     }
   }
 
@@ -167,6 +205,35 @@ class ProblemRow extends React.Component {
   receiveReason(content) {
     console.log("reason " + content);
     this.setState({ reason_content: content });
+  }
+
+  handlePictureChange(info) {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      getBase64(info.file.originFileObj, imageUrl => this.setState({
+        imageUrl,
+        loading: false,
+      }));
+    }
+  }
+
+  beforeUpload(file) {
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      this.setState({ pictureSet: reader.result })
+    }
+
+    console.log("the img is : " + this.state.pictureSet);
+    this.serverRequest = $.post(path_port + "/problem/savePicture", );
   }
 
   render() {
@@ -283,25 +350,6 @@ class ProblemRow extends React.Component {
       case EDIT:
         return (
           <div className="single-problem-panel">
-            {/* <p>Tags
-              <br/>
-              <div>
-                {this.state.problem.tags.map((tag, index) => {
-                  const isLongTag = tag.length > 20;
-                  const tagElem = (
-                    <Tag key={tag} closable={index !== 0} afterClose={() => } >
-
-                    </Tag>
-                  );
-                })}
-                {
-
-                }
-                {
-
-                }
-              </div>
-            </p> */}
             <p>Title
               <br />
               <Input
@@ -323,6 +371,17 @@ class ProblemRow extends React.Component {
                 placeholder={this.state.problem.semester}
                 onChange={this.getSemesterText} />
             </p>
+            <Upload
+              name="pic"
+              listType="picture"
+              // action={path_port + "/problem/savePicture?picture=" + this.state.pictureSet}
+              beforeUpload={this.beforeUploadPicture}
+              onChange={this.handlePictureChange}>
+              <Button>
+                <Icon type="upload" /> Click to Upload Picture
+              </Button>
+            </Upload>
+            <br />
             <p>Description</p>
             <LzEditor
               active={true}

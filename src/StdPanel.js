@@ -140,7 +140,7 @@ class StdPanel extends React.Component {
                 <header className="Std-header">
                     <h1 className="Std-title">Web Note</h1>
                     <p className="Usr-info">
-                        Hello, {this.state.usr}!
+                        Hello, {this.state.usr}! You have {this.state.problems.length} problems now. Happy learning!
                     </p>
                 </header>
                 <div>
